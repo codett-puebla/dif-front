@@ -1,0 +1,160 @@
+<div class="container-fluid">
+  <form [formGroup]="myForm" (ngSubmit)="submit()">
+    <!--    section cotizationNumber-->
+    <div class="row">
+      <mat-form-field class="w-100">
+        <input type="text" placeholder="Número de Cotización" matInput [matAutocomplete]="auto"
+               formControlName="inputCotizacion">
+        <mat-autocomplete #auto="matAutocomplete">
+          <mat-option *ngFor="let cotizacion of filteredCotizacion | async" [value]="cotizacion">
+            {{cotizacion}}
+          </mat-option>
+        </mat-autocomplete>
+      </mat-form-field>
+    </div>
+
+    <!--    Operación transitiva de dominio-->
+    <div class="row justify-content-start margen">
+      <div class="col-4">
+        <mat-checkbox>Operación Traslativa de Dominio</mat-checkbox>
+      </div>
+    </div>
+    <!--section expandable-->
+    <div class="row margen justify-content-center">
+      <div class="col w-100">
+        <mat-accordion>
+
+          <mat-expansion-panel [expanded]="step === 0" (opened)="setStep(0)" hideToggle>
+            <mat-expansion-panel-header>
+              <mat-panel-title>
+                Solicitantes
+              </mat-panel-title>
+              <mat-panel-description>
+                Llenar datos de los participantes
+                <i class="fa fa-user pl-2"></i>
+              </mat-panel-description>
+            </mat-expansion-panel-header>
+
+            <div class="row justify-content-end">
+              <div class="col-2">
+                <button (click)="addUser()" type="button" class="text-white bg-primary" mat-raised-button><i
+                  class="fa fa-user-plus"></i>
+                  Añadir
+                </button>
+              </div>
+            </div>
+
+            <div formArrayName="arrayUser">
+              <div class="row" *ngFor="let controls of this.myForm.controls.arrayUser['controls']; let i = index;">
+                <div class="col">
+                  <div class="row margen" [formGroupName]="i.toString()">
+                    <div class="col">
+                      <mat-form-field class="w-100">
+                        <input type="text" matInput placeholder="Nombre(s)" formControlName="name">
+                      </mat-form-field>
+                    </div>
+
+                    <div class="col">
+                      <mat-form-field class="w-100">
+                        <input matInput type="text" placeholder="Apellido Paterno" formControlName="lastNameFather">
+                      </mat-form-field>
+                    </div>
+                    <div class="col">
+                      <mat-form-field class="w-100">
+                        <input matInput type="text" placeholder="Apellido Materno" formControlName="lastNameMother">
+                      </mat-form-field>
+                    </div>
+                    <div class="col-2">
+                      <button mat-mini-fab color="warn" type="button" (click)="deleteUser(i)"><i
+                        class="fa fa-user-times"></i>
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <mat-action-row>
+              <button class="text-primary" type="button" mat-button (click)="nextStep()">Documentos</button>
+            </mat-action-row>
+          </mat-expansion-panel>
+
+          <mat-expansion-panel [expanded]="step === 1" (opened)="setStep(1)" hideToggle>
+            <mat-expansion-panel-header>
+              <mat-panel-title>
+                Documentos
+              </mat-panel-title>
+              <mat-panel-description>
+                Documentación de la cotización {{myForm.controls.inputCotizacion.value}} <i class="fa fa-file pl-1"></i>
+              </mat-panel-description>
+            </mat-expansion-panel-header>
+
+            <!--            action plus document-->
+            <div class="row justify-content-end">
+              <div class="col-2">
+                <button (click)="addNewDocument()" type="button" class="text-white bg-primary" mat-raised-button><i
+                  class="fa fa-plus"></i>
+                  Añadir
+                </button>
+              </div>
+            </div>
+
+            <div formArrayName="arrayDocuments">
+              <div class="row justify-content-cente margen"
+                   *ngFor="let controls of myForm.controls.arrayDocuments['controls']; let i = index">
+                <div class="col">
+                  <div class="row" [formGroupName]="i.toString()">
+
+                    <div class="col pr-0 pl-0">
+
+                      <div class="row justify-content-center">
+                        <mat-form-field class="w-50">
+
+                          <input type="text" placeholder="Documento" matInput [matAutocomplete]="autoC"
+                                 formControlName="typeDocument">
+
+                          <mat-autocomplete #autoC="matAutocomplete">
+                            <mat-option *ngFor="let option of filteredOptions[i] | async" [value]="option">
+                              {{option}}
+                            </mat-option>
+                          </mat-autocomplete>
+                        </mat-form-field>
+                      </div>
+
+                    </div>
+
+                    <div class="col-2">
+                      <mat-checkbox formControlName="original">Original</mat-checkbox>
+                    </div>
+
+                    <div class="col-2">
+                      <mat-checkbox formControlName="copy">Copia</mat-checkbox>
+                    </div>
+
+                    <div class="col-2">
+                      <button mat-mini-fab type="button" color="warn" (click)="deleteDocument(i)"><i
+                        class="fa fa-minus"></i>
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <mat-action-row>
+              <button class="text-primary" type="button" mat-button (click)="prevStep()">Solicitantes</button>
+            </mat-action-row>
+          </mat-expansion-panel>
+
+        </mat-accordion>
+      </div>
+    </div>
+    <div class="row justify-content-center margen">
+      <div class="col-4">
+        <button class="w-100" mat-raised-button color="primary" type="submit"><i class="fa fa-save pr-1"></i>Ejecutar
+          Acción
+        </button>
+      </div>
+    </div>
+  </form>
+</div>
