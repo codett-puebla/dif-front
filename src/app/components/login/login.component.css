@@ -65,7 +65,7 @@ h2.inactive {
 
 h2.active {
   color: #0d0d0d;
-  border-bottom: 2px solid #5fbae9;
+  border-bottom: 0px;
 }
 
 
@@ -126,7 +126,7 @@ input[type=button]:active, input[type=submit]:active, input[type=reset]:active  
   -webkit-border-radius: 5px 5px 5px 5px;
   border-radius: 5px 5px 5px 5px;
   background-color: #fff;
-  border-bottom: 2px solid #5fbae9;
+  border-bottom: 2px solid #a3850b;
   color: #cccccc;
 }
 
@@ -247,8 +247,13 @@ input[type=button]:active, input[type=submit]:active, input[type=reset]:active  
 }
 
 .formContentParent{
-  background-image: url('../../../assets/img/fondo.jpg');
+  background-image: url('../../../assets/img/DIF.jpg');
   width: 100%;
   height: 100%;
-  position: absolute
+  position: absolute;
+}
+
+.btn-outline-primary{
+  color: #a3850b;
+  border-color: #a3850b;
 }

@@ -1,0 +1,91 @@
+<!--
+    {
+	"tinyint" : "billable",
+	"string" : "code",
+	"string1" : "description",
+	"string2" : "image",
+	"string3" : "line",
+	"int1" : "purchaseAmount",
+	"int2" : "saleAmount",
+	"int3" : "status",
+	"int4" : "storable",
+	"string4" : "trademark",
+	"int5" : "unitMeasurePurchase",
+	"int6" : "unitMeasureSale"
+}
+-->
+
+<div class="container-fluid">
+
+    <form [formGroup]="newItem" (ngSubmit)="submit()">
+        <div class="form-group">
+            <mat-expansion-panel>
+                <mat-expansion-panel-header>
+                    <mat-panel-title>
+                        Personal data
+                    </mat-panel-title>
+                    <mat-panel-description>
+                        Type your name and age
+                    </mat-panel-description>
+
+                    <mat-action-row>
+                        <button mat-button>Nuevo árticulo</button>
+                    </mat-action-row>
+
+                </mat-expansion-panel-header>
+                <div class="row justify-content-center">
+                    <div class="col">
+                        <div class="col pr-0 pl-0">
+                            <div class="row justify-content-center">
+                                <mat-form-field class="w-25">
+                                    <input matInput placeholder="Age">
+                                </mat-form-field>
+                            </div>
+                        </div>
+
+                        <div class="col pr-0 pl-0">
+                            <div class="row justify-content-center">
+                                <mat-form-field class="w-25">
+                                    <input matInput placeholder="Age">
+                                </mat-form-field>
+                            </div>
+                        </div>
+
+                        <div class="col pr-0 pl-0">
+                            <div class="row justify-content-center">
+                                <mat-form-field class="w-25">
+                                    <input matInput placeholder="Age">
+                                </mat-form-field>
+                            </div>
+                        </div>
+
+                        <div class="col pr-0 pl-0">
+                            <div class="row justify-content-center">
+                                <mat-form-field class="w-25">
+                                    <input matInput placeholder="Age">
+                                </mat-form-field>
+                            </div>
+                        </div>
+
+                        <div class="col pr-0 pl-0">
+                            <div class="row justify-content-center">
+                                <mat-form-field class="w-25">
+                                    <input matInput placeholder="Age">
+                                </mat-form-field>
+                            </div>
+                        </div>
+
+                        <div class="col pr-0 pl-0">
+                            <div class="row justify-content-center">
+                                <mat-form-field class="w-25">
+                                    <input matInput placeholder="Age">
+                                </mat-form-field>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </mat-expansion-panel>
+        </div>
+    </form>
+</div>
+
