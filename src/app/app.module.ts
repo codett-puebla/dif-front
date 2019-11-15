@@ -17,31 +17,33 @@ import {AngularFontAwesomeModule} from 'angular-font-awesome';
 import {MaterialModule} from './components/dashboard/pages/material.module';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {ContextMenuModule} from 'ngx-contextmenu';
+import {NotFoundComponent} from './components/shared/not-found/not-found.component';
 
 @NgModule({
-  declarations: [
-    AppComponent,
-    LoginComponent,
-    FooterComponent,
-    SideBarComponent,
-    NavBarComponent,
-    DashboardComponent,
-  ],
-  imports: [
-    BrowserAnimationsModule,
-    BrowserModule,
-    AppRoutingModule,
-    MaterialModule,
-    AngularFontAwesomeModule,
-    HttpClientModule,
-    FormsModule,
-    ContextMenuModule.forRoot({
-      useBootstrap4: true
-    }),
-  ],
-  providers: [],
-  exports: [],
-  bootstrap: [AppComponent]
+    declarations: [
+        AppComponent,
+        LoginComponent,
+        FooterComponent,
+        SideBarComponent,
+        NavBarComponent,
+        DashboardComponent,
+        NotFoundComponent
+    ],
+    imports: [
+        BrowserAnimationsModule,
+        BrowserModule,
+        AppRoutingModule,
+        MaterialModule,
+        AngularFontAwesomeModule,
+        HttpClientModule,
+        FormsModule,
+        ContextMenuModule.forRoot({
+            useBootstrap4: true
+        }),
+    ],
+    providers: [],
+    exports: [],
+    bootstrap: [AppComponent]
 })
 export class AppModule {
 }
