@@ -9,7 +9,7 @@ import {
   MatExpansionModule,
   MatFormFieldModule,
   MatIconModule,
-  MatInputModule, MatSelectModule,
+  MatInputModule, MatSelectModule, MatTableModule,
   MatTabsModule,
   MatTooltipModule
 } from '@angular/material';
@@ -22,6 +22,8 @@ import {adapterFactory} from 'angular-calendar/date-adapters/date-fns';
 import localeEs from '@angular/common/locales/es';
 import {ContextMenuModule} from 'ngx-contextmenu';
 import { ItemComponent } from './item/item.component';
+import { DataTableComponent } from './item/data-table/data-table.component';
+import { ClientComponent } from './client/client.component';
 
 registerLocaleData(localeEs);
 
@@ -29,6 +31,8 @@ registerLocaleData(localeEs);
   declarations: [
     DomseguroPipe,
     ItemComponent,
+    DataTableComponent,
+    ClientComponent,
   ],
   exports: [
     DomseguroPipe,
@@ -56,6 +60,7 @@ registerLocaleData(localeEs);
     MatTooltipModule,
     MatDividerModule,
     MatSelectModule,
+    MatTableModule,
   ],
   entryComponents: [
   ]
