@@ -10,6 +10,7 @@ const APP_ROUTES: Routes = [
     // {path : 'dashboard', component: DashboardComponent, children : DASHBOARD_ROUTES, canActivate: [ AuthGuard ] },
     {path: 'dashboard', component: DashboardComponent, children: DASHBOARD_ROUTES},
     {path: '404', component: NotFoundComponent},
+    { path: '',    redirectTo: '/login', pathMatch: 'full'  },
     {path: '**', pathMatch: 'full', redirectTo: '/404'}
 ];
 
