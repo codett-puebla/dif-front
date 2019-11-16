@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {MatTableDataSource} from '@angular/material/table';
 import {ItemInterface} from '../../../../../models/item.model';
 
@@ -52,8 +52,12 @@ const ELEMENT_DATA: ItemInterface[] = [
 })
 
 export class DataTableComponent implements OnInit {
+    // tslint:disable-next-line:max-line-length
     displayedColumns: string[] = ['id', 'code', 'description', 'image', 'line', 'purchaseAmount', 'saleAmount', 'trademark', 'unitMeasurePurchase', 'unitMeasureSale'];
     dataSource = new MatTableDataSource(ELEMENT_DATA);
+
+    @Input() stateButton: boolean;
+    @Output() stateButtonChange = new EventEmitter();
 
     constructor() {
     }
@@ -63,5 +67,13 @@ export class DataTableComponent implements OnInit {
 
     applyFilter(filterValue: string) {
         this.dataSource.filter = filterValue.trim().toLowerCase();
+    }
+
+    openAccordion() {
+        this.stateButtonChange.emit(!this.stateButton);
+    }
+
+    getAction(): string {
+        return !this.stateButton ? 'Añadir' : 'Cancelar';
     }
 }
