@@ -20,7 +20,6 @@ export class ClientComponent implements OnInit {
                 address: new FormControl('', [Validators.required, Validators.minLength(3), Validators.maxLength(30)]),
                 rfc: new FormControl('', [Validators.required, Validators.minLength(3), Validators.maxLength(30)]),
                 useCFID: new FormControl('', [Validators.required, Validators.minLength(3), Validators.maxLength(30)]),
-                status: new FormControl('', [Validators.required, Validators.minLength(3), Validators.maxLength(30)]),
                 phone: new FormControl('', [Validators.required, Validators.minLength(3), Validators.maxLength(30)]),
             }
         );
