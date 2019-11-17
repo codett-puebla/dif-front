@@ -1,1 +1,85 @@
-<p>client works!</p>
+<div class="container-fluid">
+    <form novalidate [formGroup]="form" (ngSubmit)="submit()">
+        <div class="form-group">
+            <mat-accordion>
+                <mat-expansion-panel [(expanded)]="panelOpenState">
+                    <mat-expansion-panel-header>
+                        <mat-panel-title>
+                            Clientes
+                        </mat-panel-title>
+                        <mat-panel-description>
+                            Llene los campos para clientes
+                            <i class="fa fa-dollar ml-1"></i>
+                        </mat-panel-description>
+                    </mat-expansion-panel-header>
+
+                    <!--body-->
+                    <div class="row justify-content-center">
+                        <div class="col">
+                            <mat-form-field class="w-100" appearance="outline">
+                                <input type="text" matInput formControlName="name">
+                                <mat-label>Nombre</mat-label>
+                                <mat-error>{{getAttrMessage('name')}}</mat-error>
+                            </mat-form-field>
+                        </div>
+                        <div class="col">
+                            <mat-form-field class="w-100" appearance="outline">
+                                <input type="text" matInput formControlName="email">
+                                <mat-label>Email</mat-label>
+                                <mat-error>{{getAttrMessage('email')}}</mat-error>
+                            </mat-form-field>
+                        </div>
+                        <div class="col">
+                            <mat-form-field class="w-100" appearance="outline">
+                                <input type="text" matInput formControlName="phone">
+                                <mat-label>Telefono</mat-label>
+                                <mat-error>{{getAttrMessage('phone')}}</mat-error>
+                            </mat-form-field>
+                        </div>
+                    </div>
+                    <div class="row justify-content-center">
+                        <div class="col">
+                            <mat-form-field class="w-100" appearance="outline">
+                                <input type="text" matInput formControlName="address">
+                                <mat-label>Dirección</mat-label>
+                                <mat-error>{{getAttrMessage('address')}}</mat-error>
+                            </mat-form-field>
+                        </div>
+                        <div class="col">
+                            <mat-form-field class="w-100" appearance="outline">
+                                <input type="text" matInput formControlName="rfc">
+                                <mat-label>RFC</mat-label>
+                                <mat-error>{{getAttrMessage('rfc')}}</mat-error>
+                            </mat-form-field>
+                        </div>
+                        <div class="col">
+                            <mat-form-field class="w-100" appearance="outline">
+                                <input type="text" matInput formControlName="useCFID">
+                                <mat-label>CFID</mat-label>
+                                <mat-error>{{getAttrMessage('useCFID')}}</mat-error>
+                            </mat-form-field>
+                        </div>
+                    </div>
+                    <div class="row justify-content-center">
+                        <div class="col">
+                            <button mat-button class="bg-secondary text-white btn-block" type="button"
+                                    (click)="form.reset()">
+                                Limpiar Formulario
+                            </button>
+                        </div>
+                        <div class="col">
+                            <button mat-button type="submit" [disabled]="!form.valid"
+                                    class="bg-primary text-white btn-block">
+                                Guardar
+                            </button>
+                        </div>
+                    </div>
+                </mat-expansion-panel>
+            </mat-accordion>
+        </div>
+    </form>
+    <app-client-data-table [(stateButton)]="panelOpenState"></app-client-data-table>
+    <br>
+    <br>
+</div>
+

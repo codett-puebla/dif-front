@@ -1,6 +1,5 @@
 import {Injectable} from '@angular/core';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
-import {ItemModel} from '../../models/item.model';
 
 @Injectable({
     providedIn: 'root'
@@ -25,7 +24,7 @@ export class ItemService {
     }
 
     getData() {
-        return data;
+        return this.data;
     }
 
     setData(data) {

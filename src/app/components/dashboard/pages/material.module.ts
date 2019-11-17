@@ -27,8 +27,10 @@ import {ItemComponent} from './item/item.component';
 import {DataTableComponent} from './item/data-table/data-table.component';
 import {ClientComponent} from './client/client.component';
 import {MAT_DATE_LOCALE, MatNativeDateModule} from "@angular/material/core";
-import {MatPaginatorIntl} from "@angular/material/paginator";
+import {MatPaginatorIntl, MatPaginatorModule} from "@angular/material/paginator";
 import {CustomMatPaginatorIntl} from "../../../Internalization/CustomMatPaginatorIntl";
+import { ClientDataTableComponent } from './client/client-data-table/client-data-table.component';
+import {MatSortModule} from "@angular/material/sort";
 
 registerLocaleData(localeEs);
 
@@ -38,6 +40,7 @@ registerLocaleData(localeEs);
         ItemComponent,
         DataTableComponent,
         ClientComponent,
+        ClientDataTableComponent,
     ],
     exports: [
         DomseguroPipe,
@@ -66,6 +69,8 @@ registerLocaleData(localeEs);
         MatDividerModule,
         MatSelectModule,
         MatTableModule,
+        MatPaginatorModule,
+        MatSortModule,
     ],
     entryComponents: [],
     providers: [
