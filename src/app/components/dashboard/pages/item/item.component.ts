@@ -10,17 +10,13 @@ import {ItemModel} from '../../../../models/item.model';
 
 
 export class ItemComponent implements OnInit {
-    newItem: ItemModel = new ItemModel();
+    newItem: ItemModel;
     panelOpenState = false;
 
     constructor() {
+        this.newItem = new ItemModel();
     }
 
     ngOnInit() {
     }
-
-    submit(form: NgForm) {
-        console.log('NEW ITEM ---> ', form);
-    }
-
 }

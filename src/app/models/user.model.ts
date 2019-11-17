@@ -1,6 +1,14 @@
 export class UserModel {
   username = 'alex@gmail.com';
   password = 'secret';
+
+}
+
+export class UserRegisterModel {
+  username = 'alex@gmail.com';
+  password = 'secret';
+  confirmPassword = '';
+
 }
 
 export class UserModelLogged {
@@ -10,4 +18,13 @@ export class UserModelLogged {
   user_type: number;
   create_time: string;
 }
+
+export interface UserInterfaceModel {
+  id: number;
+  username: string;
+  password: string;
+  status: number;
+  create_at: string;
+}
+
 

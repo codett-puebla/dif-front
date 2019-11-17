@@ -1,0 +1,82 @@
+<div class="container-fluid">
+    <form (ngSubmit)="submit(f)" #f="ngForm" class="login100-form validate-form">
+        <div class="form-group">
+            <mat-accordion>
+                <mat-expansion-panel [(expanded)]="panelOpenState">
+                    <mat-expansion-panel-header>
+                        <mat-panel-title>
+                            Usuarios
+                        </mat-panel-title>
+                        <mat-panel-description>
+                            Llene los campos para usuarios
+                            <i class="fa fa-dollar ml-1"></i>
+                        </mat-panel-description>
+                    </mat-expansion-panel-header>
+
+                    <!--body-->
+                    <div>
+                        <div class="row justify-content-center">
+                            <div class="col">
+                                <div class="row margen">
+                                    <div class="col pr-0 pl-0">
+                                        <div class="row justify-content-center">
+                                            <mat-form-field class="w-75">
+                                                <input matInput placeholder="Usuario" name="user" [formControl]="emailFormControl" [errorStateMatcher]="matcher"
+                                                       [(ngModel)]="user.username">
+
+                                                <mat-error *ngIf="emailFormControl.hasError('email') && !emailFormControl.hasError('required')">
+                                                    Por favor ingrese un correo valido
+                                                </mat-error>
+                                                <mat-error *ngIf="emailFormControl.hasError('required')">
+                                                    Email es <strong>obligatorio</strong>
+                                                </mat-error>
+                                            </mat-form-field>
+                                        </div>
+                                    </div>
+
+                                    <div class="col pr-0 pl-0">
+                                        <div class="row justify-content-center">
+                                            <mat-form-field class="w-75">
+                                                <input matInput placeholder="Contraseña" name="password"
+                                                       [(ngModel)]="user.password">
+                                            </mat-form-field>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row margen">
+                                    <div class="col pr-0 pl-0">
+                                        <div class="row justify-content-center">
+                                            <mat-form-field class="w-75">
+                                                <input matInput placeholder="Confirmar Contraseña" name="confirm_password"
+                                                       [(ngModel)]="user.confirmPassword">
+                                            </mat-form-field>
+                                        </div>
+                                    </div>
+
+                                    <div class="col pr-0 pl-0">
+                                        <div class="row justify-content-center">
+                                            <mat-form-field class="w-75">
+                                                <mat-label>Tipo de usuario</mat-label>
+                                                <mat-select>
+                                                    <mat-option *ngFor="let type of typeUser" [value]="type.value">
+                                                        {{type.viewValue}}
+                                                    </mat-option>
+                                                </mat-select>
+                                            </mat-form-field>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </mat-expansion-panel>
+            </mat-accordion>
+        </div>
+    </form>
+    <app-user-data-table [(stateButton)]="panelOpenState"></app-user-data-table>
+    <br>
+    <br>
+</div>
+

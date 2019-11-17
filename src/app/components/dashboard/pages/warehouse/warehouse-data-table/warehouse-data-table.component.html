@@ -1,0 +1,64 @@
+<mat-form-field class="w-100">
+    <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Busqueda">
+</mat-form-field>
+
+
+<!--<div class="mat-elevation-z8 w-100" *ngIf="areas.length > 0;else noContent">-->
+<div class="mat-elevation-z8 w-100">
+    <div class="row justify-content-end mat-elevation-z0 mt-2">
+        <!--  section add-->
+        <div class="col-2">
+            <!--            <button (click)="addArea()" type="button" mat-raised-button class="bg-primary text-white">-->
+            <button (click)="openAccordion()" type="button" mat-raised-button class="bg-primary text-white mb-2 mt-2"
+                    [ngClass]="{'bg-danger':stateButton }">
+                <mat-icon *ngIf="!stateButton;else canView">add_circle_outline</mat-icon>
+                <ng-template #canView>
+                    <mat-icon>cancel</mat-icon>
+                </ng-template>
+                <span> {{getAction()}} </span>
+            </button>
+        </div>
+    </div>
+    <table mat-table [dataSource]="dataSource" class="mat-elevation-z8 w-100" matSort>
+
+        <!-- Position Column -->
+        <ng-container matColumnDef="id">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> No.</th>
+            <td mat-cell *matCellDef="let element"> {{element.id}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="name">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Nombre</th>
+            <td mat-cell *matCellDef="let element"> {{element.name}} </td>
+        </ng-container>
+        <ng-container matColumnDef="address">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Dirección</th>
+            <td mat-cell *matCellDef="let element"> {{element.address}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="reason">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Descripción</th>
+            <td mat-cell *matCellDef="let element"> {{element.reason}} </td>
+        </ng-container>
+        <ng-container matColumnDef="accountingAccount">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Cuenta facturable </th>
+            <td mat-cell *matCellDef="let element"> {{element.accountingAccount}} </td>
+        </ng-container>
+
+        <!-- Action Columns Column -->
+        <ng-container matColumnDef="actions">
+            <th mat-header-cell *matHeaderCellDef> Acciones</th>
+            <td mat-cell *matCellDef="let element">
+                <button (click)="editClient(element)" type="button" mat-mini-fab class="bg-success mr-1">
+                    <mat-icon>edit</mat-icon>
+                </button>
+                <button (click)="deleteClient(element.id)" type="button" mat-mini-fab class="bg-danger">
+                    <mat-icon>close</mat-icon>
+                </button>
+            </td>
+        </ng-container>
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+    <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>
+</div>

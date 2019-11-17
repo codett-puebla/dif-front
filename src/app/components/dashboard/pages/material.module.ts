@@ -31,6 +31,11 @@ import {MatPaginatorIntl, MatPaginatorModule} from "@angular/material/paginator"
 import {CustomMatPaginatorIntl} from "../../../Internalization/CustomMatPaginatorIntl";
 import { ClientDataTableComponent } from './client/client-data-table/client-data-table.component';
 import {MatSortModule} from "@angular/material/sort";
+import { WarehouseComponent } from './warehouse/warehouse.component';
+import { WarehouseDataTableComponent } from './warehouse/warehouse-data-table/warehouse-data-table.component';
+import { UserComponent } from './user/user.component';
+import { UserDataTableComponent } from './user/user-data-table/user-data-table.component';
+import {UserPipe} from '../../../pipes/user.pipe';
 
 registerLocaleData(localeEs);
 
@@ -41,6 +46,11 @@ registerLocaleData(localeEs);
         DataTableComponent,
         ClientComponent,
         ClientDataTableComponent,
+        WarehouseComponent,
+        WarehouseDataTableComponent,
+        UserComponent,
+        UserDataTableComponent,
+        UserPipe
     ],
     exports: [
         DomseguroPipe,

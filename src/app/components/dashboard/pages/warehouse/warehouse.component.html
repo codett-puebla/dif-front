@@ -1,0 +1,70 @@
+<div class="container-fluid">
+    <form (ngSubmit)="submit(f)" #f="ngForm" class="login100-form validate-form">
+        <div class="form-group">
+            <mat-accordion>
+                <mat-expansion-panel [(expanded)]="panelOpenState">
+                    <mat-expansion-panel-header>
+                        <mat-panel-title>
+                            Bodegas
+                        </mat-panel-title>
+                        <mat-panel-description>
+                            Llene los campos para Bodegas
+                            <i class="fa fa-dollar ml-1"></i>
+                        </mat-panel-description>
+                    </mat-expansion-panel-header>
+
+                    <!--body-->
+                    <div>
+                        <div class="row justify-content-center">
+                            <div class="col">
+
+                                <div class="row margen">
+                                    <div class="col pr-0 pl-0">
+                                        <div class="row justify-content-center">
+                                            <mat-form-field class="w-75">
+                                                <input matInput placeholder="Cuenta facturable" name="accountingAccount"
+                                                       [(ngModel)]="warehouse.accountingAccount">
+                                            </mat-form-field>
+                                        </div>
+                                    </div>
+
+                                    <div class="col pr-0 pl-0">
+                                        <div class="row justify-content-center">
+                                            <mat-form-field class="w-75">
+                                                <input matInput placeholder="Nombre" name="name"
+                                                       [(ngModel)]="warehouse.name">
+                                            </mat-form-field>
+                                        </div>
+                                    </div>
+
+                                </div>
+
+                                <div class="row margen">
+                                    <div class="col pr-0 pl-0">
+                                        <div class="row justify-content-center">
+                                            <mat-form-field class="w-75">
+                                                <input matInput placeholder="Dirección" name="address"
+                                                       [(ngModel)]="warehouse.address">
+                                            </mat-form-field>
+                                        </div>
+                                    </div>
+                                    <div class="col pr-0 pl-0">
+                                        <div class="row justify-content-center">
+                                            <mat-form-field class="w-75">
+                                                <textarea matInput placeholder="Descripción" name="reason" [(ngModel)]="warehouse.reason"></textarea>
+                                            </mat-form-field>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </mat-expansion-panel>
+            </mat-accordion>
+        </div>
+    </form>
+    <app-warehouse-data-table [(stateButton)]="panelOpenState"></app-warehouse-data-table>
+    <br>
+    <br>
+</div>
+

@@ -1,5 +1,7 @@
 import {BrowserModule} from '@angular/platform-browser';
 import {NgModule} from '@angular/core';
+//Pipes
+import {UserPipe} from './pipes/user.pipe';
 // Servicios
 import {HttpClientModule} from '@angular/common/http';
 import {FormsModule} from '@angular/forms';
@@ -27,7 +29,7 @@ import {NotFoundComponent} from './components/shared/not-found/not-found.compone
         SideBarComponent,
         NavBarComponent,
         DashboardComponent,
-        NotFoundComponent
+        NotFoundComponent,
     ],
     imports: [
         BrowserAnimationsModule,
