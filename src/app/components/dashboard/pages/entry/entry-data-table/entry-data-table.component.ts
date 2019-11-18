@@ -1,41 +1,41 @@
 import {AfterViewInit, Component, EventEmitter, Input, OnInit, Output, ViewChild} from '@angular/core';
 import {MatTableDataSource} from '@angular/material/table';
-import {ClientModel} from '../../../../../models/client.model';
 import {MatPaginator} from '@angular/material/paginator';
 import {MatSort} from '@angular/material/sort';
+import {EntryModel} from '../../../../../models/entry.model';
 
-const ELEMENT_DATA: ClientModel[] = [
+const ELEMENT_DATA: EntryModel[] = [
         {
-            address: 'asdasdasd',
-            email: 'asasdasd',
+            date: new Date(),
+            folio: '123123',
             id: 1,
-            name: 'asdasd',
-            phone: '123123@',
-            rfc: 'asfdasdasd',
+            idUser: 2,
+            idWarehouse: 2,
+            series: 'V-1123123',
             status: 1,
-            useCFID: 'asdasd',
-        }, {
-            address: 'asdasdasd',
-            email: 'asasdasd',
-            id: 2,
-            name: 'aaaaaa',
-            phone: '123123',
-            rfc: 'asfdasdasd',
+        },
+        {
+            date: new Date(),
+            folio: '1234444',
+            id: 3,
+            idUser: 2,
+            idWarehouse: 2,
+            series: 'X-1123123',
             status: 1,
-            useCFID: 'asdasd',
         },
     ]
 ;
 
+
 @Component({
-    selector: 'app-client-data-table',
-    templateUrl: './client-data-table.component.html',
-    styleUrls: ['./client-data-table.component.css']
+    selector: 'app-entry-data-table',
+    templateUrl: './entry-data-table.component.html',
+    styleUrls: ['./entry-data-table.component.css']
 })
-export class ClientDataTableComponent implements OnInit, AfterViewInit {
+export class EntryDataTableComponent implements OnInit, AfterViewInit {
     // tslint:disable-next-line:max-line-length
-    displayedColumns: string[] = ['id', 'name', 'address', 'email', 'rfc', 'useCFID', 'phone', 'status', 'actions'];
-    dataSource: MatTableDataSource<ClientModel>;
+    displayedColumns: string[] = ['id', 'series', 'folio', 'date', 'idWarehouse', 'status', 'actions'];
+    dataSource: MatTableDataSource<EntryModel>;
     @ViewChild(MatPaginator, {static: false}) paginator: MatPaginator;
     @ViewChild(MatSort, {static: false}) sort: MatSort;
 
@@ -62,11 +62,11 @@ export class ClientDataTableComponent implements OnInit, AfterViewInit {
         return !this.stateButton ? 'Añadir' : 'Cancelar';
     }
 
-    editClient(element: any) {
+    editEntry(element: any) {
 
     }
 
-    deleteClient(id: any) {
+    deleteEntry(id: any) {
 
     }
 

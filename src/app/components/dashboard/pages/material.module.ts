@@ -36,6 +36,11 @@ import { WarehouseDataTableComponent } from './warehouse/warehouse-data-table/wa
 import { UserComponent } from './user/user.component';
 import { UserDataTableComponent } from './user/user-data-table/user-data-table.component';
 import {UserPipe} from '../../../pipes/user.pipe';
+import { EntryComponent } from './entry/entry.component';
+import { EntryDataTableComponent } from './entry/entry-data-table/entry-data-table.component';
+import { DepartureComponent } from './departure/departure.component';
+import { DepartureDataTableComponent } from './departure/departure-data-table/departure-data-table.component';
+import {MatCardModule} from "@angular/material/card";
 
 registerLocaleData(localeEs);
 
@@ -50,7 +55,11 @@ registerLocaleData(localeEs);
         WarehouseDataTableComponent,
         UserComponent,
         UserDataTableComponent,
-        UserPipe
+        UserPipe,
+        EntryComponent,
+        EntryDataTableComponent,
+        DepartureComponent,
+        DepartureDataTableComponent
     ],
     exports: [
         DomseguroPipe,
@@ -81,6 +90,7 @@ registerLocaleData(localeEs);
         MatTableModule,
         MatPaginatorModule,
         MatSortModule,
+        MatCardModule,
     ],
     entryComponents: [],
     providers: [

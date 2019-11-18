@@ -8,7 +8,6 @@ import {ItemModel} from '../../../../models/item.model';
     styleUrls: ['./client.component.css']
 })
 export class ClientComponent implements OnInit {
-    newItem: ItemModel = new ItemModel();
     panelOpenState = false;
     form: FormGroup;
 
