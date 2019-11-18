@@ -1,1 +1,71 @@
-<p>departure-data-table works!</p>
+<mat-form-field class="w-100">
+    <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Busqueda">
+</mat-form-field>
+
+
+<!--<div class="mat-elevation-z8 w-100" *ngIf="areas.length > 0;else noContent">-->
+<div class="mat-elevation-z8 w-100">
+    <div class="row justify-content-end mat-elevation-z0 mt-2">
+        <!--  section add-->
+        <div class="col-2">
+            <!--            <button (click)="addArea()" type="button" mat-raised-button class="bg-primary text-white">-->
+            <button (click)="openAccordion()" type="button" mat-raised-button class="bg-primary text-white mb-2 mt-2"
+                    [ngClass]="{'bg-danger':stateButton }">
+                <mat-icon *ngIf="!stateButton;else canView">add_circle_outline</mat-icon>
+                <ng-template #canView>
+                    <mat-icon>cancel</mat-icon>
+                </ng-template>
+                <span> {{getAction()}} </span>
+            </button>
+        </div>
+    </div>
+    <table mat-table [dataSource]="dataSource" class="mat-elevation-z8 w-100" matSort>
+
+        <!-- Position Column -->
+        <ng-container matColumnDef="id">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> No.</th>
+            <td mat-cell *matCellDef="let element"> {{element.id}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="series">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Series</th>
+            <td mat-cell *matCellDef="let element"> {{element.series}} </td>
+        </ng-container>
+        <ng-container matColumnDef="folio">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Folio</th>
+            <td mat-cell *matCellDef="let element"> {{element.folio}} </td>
+        </ng-container>
+        <ng-container matColumnDef="date">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Fecha</th>
+            <td mat-cell *matCellDef="let element"> {{element.date | date}} </td>
+        </ng-container>
+        <ng-container matColumnDef="idWarehouse">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Bodega</th>
+            <td mat-cell *matCellDef="let element"> {{element.idWarehouse}} </td>
+        </ng-container>
+        <ng-container matColumnDef="idStaff">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Personal Responsable</th>
+            <td mat-cell *matCellDef="let element"> {{element.idStaff}} </td>
+        </ng-container>
+        <ng-container matColumnDef="status">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Estado</th>
+            <td mat-cell *matCellDef="let element"> {{element.status}} </td>
+        </ng-container>
+
+        <!-- Action Columns Column -->
+        <ng-container matColumnDef="actions">
+            <th mat-header-cell *matHeaderCellDef> Acciones</th>
+            <td mat-cell *matCellDef="let element">
+                <button (click)="editDeparture(element)" type="button" mat-mini-fab class="bg-success mr-1">
+                    <mat-icon>edit</mat-icon>
+                </button>
+                <button (click)="deleteDeparture(element.id)" type="button" mat-mini-fab class="bg-danger">
+                    <mat-icon>close</mat-icon>
+                </button>
+            </td>
+        </ng-container>
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+    <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>
+</div>

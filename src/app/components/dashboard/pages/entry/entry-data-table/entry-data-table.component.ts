@@ -34,7 +34,7 @@ const ELEMENT_DATA: EntryModel[] = [
 })
 export class EntryDataTableComponent implements OnInit, AfterViewInit {
     // tslint:disable-next-line:max-line-length
-    displayedColumns: string[] = ['id', 'series', 'folio', 'date', 'idWarehouse', 'status', 'actions'];
+    displayedColumns: string[] = ['id', 'series', 'folio', 'date', 'idWarehouse', 'idUser', 'status', 'actions'];
     dataSource: MatTableDataSource<EntryModel>;
     @ViewChild(MatPaginator, {static: false}) paginator: MatPaginator;
     @ViewChild(MatSort, {static: false}) sort: MatSort;

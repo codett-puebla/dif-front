@@ -1,1 +1,108 @@
-<p>departure works!</p>
+<div class="container-fluid">
+    <form novalidate [formGroup]="form" (ngSubmit)="submit()">
+        <div class="form-group">
+            <mat-accordion>
+                <mat-expansion-panel [(expanded)]="panelOpenState">
+                    <mat-expansion-panel-header>
+                        <mat-panel-title>
+                            Salida
+                        </mat-panel-title>
+                        <mat-panel-description>
+                            Llene los campos para salida
+                            <i class="fa fa-dollar ml-1"></i>
+                        </mat-panel-description>
+                    </mat-expansion-panel-header>
+
+                    <!--body-->
+                    <div class="row justify-content-center">
+                        <div class="col">
+                            <mat-form-field class="w-100" appearance="outline">
+                                <input type="text" matInput formControlName="series">
+                                <mat-label>Serie</mat-label>
+                                <mat-error>{{getAttrMessage('series')}}</mat-error>
+                            </mat-form-field>
+                        </div>
+                        <div class="col">
+                            <mat-form-field class="w-100" appearance="outline">
+                                <input type="text" matInput formControlName="folio">
+                                <mat-label>Folio</mat-label>
+                                <mat-error>{{getAttrMessage('folio')}}</mat-error>
+                            </mat-form-field>
+                        </div>
+                        <div class="col">
+                            <mat-form-field class="w-100" appearance="outline">
+                                <input type="text" matInput formControlName="date">
+                                <mat-label>Fecha</mat-label>
+                                <mat-error>{{getAttrMessage('date')}}</mat-error>
+                            </mat-form-field>
+                        </div>
+                    </div>
+                    <div class="row justify-content-center">
+                        <div class="col">
+                            <mat-form-field class="w-100" appearance="outline">
+                                <input type="text" matInput formControlName="idWarehouse">
+                                <mat-label>Bodega</mat-label>
+                                <mat-error>{{getAttrMessage('idWarehouse')}}</mat-error>
+                            </mat-form-field>
+                        </div>
+                        <div class="col">
+                            <mat-form-field class="w-100" appearance="outline">
+                                <input type="text" matInput formControlName="idStaff">
+                                <mat-label>Personal Encargado</mat-label>
+                                <mat-error>{{getAttrMessage('idStaff')}}</mat-error>
+                            </mat-form-field>
+                        </div>
+                    </div>
+
+                    <mat-card class="mb-3">
+                        <mat-card-title>
+                            Detalle de salidas
+                        </mat-card-title>
+                        <mat-card-content>
+                            <div class="row justify-content-center">
+                                <div class="col">
+                                    <mat-form-field class="w-100" appearance="outline">
+                                        <mat-label>Articulo</mat-label>
+                                        <mat-select>
+                                            <mat-option *ngFor="let item of items" [value]="item">
+                                                {{item}}
+                                            </mat-option>
+                                        </mat-select>
+                                    </mat-form-field>
+                                </div>
+                                <div class="col">
+                                    <mat-form-field class="w-100" appearance="outline">
+                                        <input type="number" matInput>
+                                        <mat-label>Cantidad</mat-label>
+                                    </mat-form-field>
+                                </div>
+                            </div>
+                        </mat-card-content>
+                        <mat-card-actions align="end">
+                            <button mat-button class="bg-light" type="button">Agregar Salida</button>
+                        </mat-card-actions>
+                    </mat-card>
+
+                    <div class="row justify-content-center">
+                        <div class="col">
+                            <button mat-button class="bg-secondary text-white btn-block" type="button"
+                                    (click)="form.reset()">
+                                Limpiar Formulario
+                            </button>
+                        </div>
+                        <div class="col">
+                            <button mat-button type="submit" [disabled]="!form.valid"
+                                    class="bg-primary text-white btn-block">
+                                Guardar
+                            </button>
+                        </div>
+                    </div>
+                </mat-expansion-panel>
+            </mat-accordion>
+        </div>
+    </form>
+    <app-departure-data-table [(stateButton)]="panelOpenState"></app-departure-data-table>
+    <br>
+    <br>
+</div>
+
