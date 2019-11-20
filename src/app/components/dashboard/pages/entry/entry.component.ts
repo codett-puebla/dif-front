@@ -26,7 +26,7 @@ export class EntryComponent implements OnInit {
     ngOnInit() {
     }
 
-    submit() {
+    submit(form: NgForm) {
         console.log('NEW CLIENT ---> ', form);
     }
 

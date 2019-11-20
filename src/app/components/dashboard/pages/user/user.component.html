@@ -1,5 +1,5 @@
 <div class="container-fluid">
-    <form (ngSubmit)="submit(f)" #f="ngForm" class="login100-form validate-form">
+    <form (ngSubmit)="submit()" [formGroup]="form" class="login100-form validate-form">
         <div class="form-group">
             <mat-accordion>
                 <mat-expansion-panel [(expanded)]="panelOpenState">
@@ -20,25 +20,20 @@
                                 <div class="row margen">
                                     <div class="col pr-0 pl-0">
                                         <div class="row justify-content-center">
-                                            <mat-form-field class="w-75">
-                                                <input matInput placeholder="Usuario" name="user" [formControl]="emailFormControl" [errorStateMatcher]="matcher"
-                                                       [(ngModel)]="user.username">
-
-                                                <mat-error *ngIf="emailFormControl.hasError('email') && !emailFormControl.hasError('required')">
-                                                    Por favor ingrese un correo valido
-                                                </mat-error>
-                                                <mat-error *ngIf="emailFormControl.hasError('required')">
-                                                    Email es <strong>obligatorio</strong>
-                                                </mat-error>
+                                            <mat-form-field class="w-75" appearance="outline">
+                                                <input type="text" matInput formControlName="email">
+                                                <mat-label>Usuario</mat-label>
+                                                <mat-error> {{getAttrMessage('email')}} </mat-error>
                                             </mat-form-field>
                                         </div>
                                     </div>
 
                                     <div class="col pr-0 pl-0">
                                         <div class="row justify-content-center">
-                                            <mat-form-field class="w-75">
-                                                <input matInput placeholder="Contraseña" name="password"
-                                                       [(ngModel)]="user.password">
+                                            <mat-form-field class="w-75" appearance="outline">
+                                                <input type="text" matInput formControlName="password">
+                                                <mat-label>Contraseña</mat-label>
+                                                <mat-error> {{getAttrMessage('password')}} </mat-error>
                                             </mat-form-field>
                                         </div>
                                     </div>
@@ -47,22 +42,24 @@
                                 <div class="row margen">
                                     <div class="col pr-0 pl-0">
                                         <div class="row justify-content-center">
-                                            <mat-form-field class="w-75">
-                                                <input matInput placeholder="Confirmar Contraseña" name="confirm_password"
-                                                       [(ngModel)]="user.confirmPassword">
+                                            <mat-form-field class="w-75" appearance="outline">
+                                                <input type="text" matInput formControlName="confirmPassword">
+                                                <mat-label>Confirmar Contraseña</mat-label>
+                                                <mat-error> {{getAttrMessage('confirmPassword')}} </mat-error>
                                             </mat-form-field>
                                         </div>
                                     </div>
 
                                     <div class="col pr-0 pl-0">
                                         <div class="row justify-content-center">
-                                            <mat-form-field class="w-75">
+                                            <mat-form-field class="w-75" appearance="outline">
                                                 <mat-label>Tipo de usuario</mat-label>
-                                                <mat-select>
+                                                <mat-select formControlName="typeUser">
                                                     <mat-option *ngFor="let type of typeUser" [value]="type.value">
                                                         {{type.viewValue}}
                                                     </mat-option>
                                                 </mat-select>
+                                                <mat-error>{{getAttrMessage('typeUser')}}</mat-error>
                                             </mat-form-field>
                                         </div>
                                     </div>
@@ -71,6 +68,22 @@
                             </div>
                         </div>
                     </div>
+
+                    <div class="row justify-content-center">
+                        <div class="col">
+                            <button mat-button class="bg-secondary text-white btn-block" type="button"
+                                    (click)="form.reset()">
+                                Limpiar Formulario
+                            </button>
+                        </div>
+                        <div class="col">
+                            <button mat-button type="submit" [disabled]="!form.valid"
+                                    class="bg-primary text-white btn-block">
+                                Guardar
+                            </button>
+                        </div>
+                    </div>
+
                 </mat-expansion-panel>
             </mat-accordion>
         </div>

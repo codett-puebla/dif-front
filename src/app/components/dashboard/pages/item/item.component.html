@@ -21,7 +21,7 @@
 
                                     <div class="col pr-0 pl-0">
                                         <div class="row justify-content-center">
-                                            <mat-form-field class="w-75">
+                                            <mat-form-field class="w-75" appearance="outline">
                                                 <input matInput placeholder="Código" name="code"
                                                        [(ngModel)]="newItem.code">
                                             </mat-form-field>
@@ -39,7 +39,7 @@
                                 <div class="row margen">
                                     <div class="col pr-0 pl-0">
                                         <div class="row justify-content-center">
-                                            <mat-form-field class="w-75">
+                                            <mat-form-field class="w-75" appearance="outline">
                                                 <input matInput placeholder="Descripción" name="description"
                                                        [(ngModel)]="newItem.description">
                                             </mat-form-field>
@@ -48,7 +48,7 @@
 
                                     <div class="col pr-0 pl-0">
                                         <div class="row justify-content-center">
-                                            <mat-form-field class="w-75">
+                                            <mat-form-field class="w-75" appearance="outline">
                                                 <input matInput placeholder="Imagen" name="image"
                                                        [(ngModel)]="newItem.image">
                                             </mat-form-field>
@@ -59,7 +59,7 @@
                                 <div class="row margen">
                                     <div class="col pr-0 pl-0">
                                         <div class="row justify-content-center">
-                                            <mat-form-field class="w-75">
+                                            <mat-form-field class="w-75" appearance="outline">
                                                 <input matInput placeholder="Linea" name="line"
                                                        [(ngModel)]="newItem.line">
                                             </mat-form-field>
@@ -68,7 +68,7 @@
 
                                     <div class="col pr-0 pl-0">
                                         <div class="row justify-content-center">
-                                            <mat-form-field class="w-75">
+                                            <mat-form-field class="w-75" appearance="outline">
                                                 <input matInput placeholder="Precio de compras" name="purchaseAmount"
                                                        [(ngModel)]="newItem.purchaseAmount">
                                             </mat-form-field>
@@ -79,7 +79,7 @@
                                 <div class="row margen">
                                     <div class="col pr-0 pl-0">
                                         <div class="row justify-content-center">
-                                            <mat-form-field class="w-75">
+                                            <mat-form-field class="w-75" appearance="outline">
                                                 <input matInput placeholder="Precio de venta" name="saleAmount"
                                                        [(ngModel)]="newItem.saleAmount">
                                             </mat-form-field>
@@ -88,7 +88,7 @@
 
                                     <div class="col pr-0 pl-0">
                                         <div class="row justify-content-center">
-                                            <mat-form-field class="w-75">
+                                            <mat-form-field class="w-75" appearance="outline">
                                                 <input matInput placeholder="Marca" name="trademark"
                                                        [(ngModel)]="newItem.trademark">
                                             </mat-form-field>
@@ -99,7 +99,7 @@
                                 <div class="row margen">
                                     <div class="col pr-0 pl-0">
                                         <div class="row justify-content-center">
-                                            <mat-form-field class="w-75">
+                                            <mat-form-field class="w-75" appearance="outline">
                                                 <input matInput placeholder="Unidad de venta" name="unitMeasurePurchase"
                                                        [(ngModel)]="newItem.unitMeasurePurchase">
                                             </mat-form-field>
@@ -108,7 +108,7 @@
 
                                     <div class="col pr-0 pl-0">
                                         <div class="row justify-content-center">
-                                            <mat-form-field class="w-75">
+                                            <mat-form-field class="w-75" appearance="outline">
                                                 <input matInput placeholder="Unidad de medida de venta"
                                                        name="unitMeasureSale" [(ngModel)]="newItem.unitMeasureSale">
                                             </mat-form-field>
@@ -118,6 +118,24 @@
                             </div>
                         </div>
                     </div>
+
+
+                    <div class="row justify-content-center">
+                        <div class="col">
+                            <button mat-button class="bg-secondary text-white btn-block" type="button"
+                                    (click)="f.reset()">
+                                Limpiar Formulario
+                            </button>
+                        </div>
+                        <div class="col">
+                            <button mat-button type="submit" [disabled]="!f.valid"
+                                    class="bg-primary text-white btn-block">
+                                Guardar
+                            </button>
+                        </div>
+                    </div>
+
+
                 </mat-expansion-panel>
             </mat-accordion>
         </div>

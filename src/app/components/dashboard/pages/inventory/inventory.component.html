@@ -5,10 +5,10 @@
                 <mat-expansion-panel [(expanded)]="panelOpenState">
                     <mat-expansion-panel-header>
                         <mat-panel-title>
-                            Bodegas
+                            Inventario
                         </mat-panel-title>
                         <mat-panel-description>
-                            Llene los campos para Bodegas
+                            Llene los campos para inventario
                             <i class="fa fa-dollar ml-1"></i>
                         </mat-panel-description>
                     </mat-expansion-panel-header>
@@ -19,35 +19,33 @@
 
                             <div class="col">
                                 <mat-form-field class="w-100" appearance="outline">
-                                    <input matInput formControlName="accountingAccount">
-                                    <mat-label>Cuenta facturable</mat-label>
-                                    <mat-error>{{getAttrMessage('accountingAccount')}}</mat-error>
+                                    <mat-label>Bodega</mat-label>
+                                    <mat-select formControlName="idWarehouse">
+                                        <mat-option *ngFor="let type of warehouse" [value]="type.value">
+                                            {{type.viewValue}}
+                                        </mat-option>
+                                    </mat-select>
+                                    <mat-error>{{getAttrMessage('idWarehouse')}}</mat-error>
                                 </mat-form-field>
                             </div>
 
                             <div class="col">
                                 <mat-form-field class="w-100" appearance="outline">
-                                    <input matInput  formControlName="name">
-                                    <mat-label> Nombre</mat-label>
-                                    <mat-error>{{getAttrMessage('name')}}</mat-error>
+                                    <mat-label>Artículo</mat-label>
+                                    <mat-select formControlName="idItem">
+                                        <mat-option *ngFor="let type of item" [value]="type.value">
+                                            {{type.viewValue}}
+                                        </mat-option>
+                                    </mat-select>
+                                    <mat-error>{{getAttrMessage('idItem')}}</mat-error>
                                 </mat-form-field>
                             </div>
 
                             <div class="col">
                                 <mat-form-field class="w-100" appearance="outline">
-                                    <input matInput  formControlName="address">
-                                    <mat-label> Dirección</mat-label>
-                                    <mat-error>{{getAttrMessage('address')}}</mat-error>
-                                </mat-form-field>
-                            </div>
-                        </div>
-
-                        <div class="row justify-content-center">
-                            <div class="col">
-                                <mat-form-field class="w-100" appearance="outline">
-                                    <textarea matInput formControlName="reason" ></textarea>
-                                    <mat-label>Descripción</mat-label>
-                                    <mat-error>{{getAttrMessage('reason')}}</mat-error>
+                                    <input matInput type="number"  formControlName="quantity">
+                                    <mat-label> Cantidad</mat-label>
+                                    <mat-error>{{getAttrMessage('quantity')}}</mat-error>
                                 </mat-form-field>
                             </div>
                         </div>
@@ -71,7 +69,8 @@
             </mat-accordion>
         </div>
     </form>
-    <app-warehouse-data-table [(stateButton)]="panelOpenState"></app-warehouse-data-table>
+    <app-inventory-data-table [(stateButton)]="panelOpenState"></app-inventory-data-table>
+
     <br>
     <br>
 </div>

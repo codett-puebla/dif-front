@@ -5,6 +5,7 @@ import {WarehouseComponent} from './pages/warehouse/warehouse.component';
 import {UserComponent} from './pages/user/user.component';
 import {EntryComponent} from './pages/entry/entry.component';
 import {DepartureComponent} from './pages/departure/departure.component';
+import {InventoryComponent} from './pages/inventory/inventory.component';
 
 export const DASHBOARD_ROUTES: Routes = [
     {path: 'item', component: ItemComponent},
@@ -13,5 +14,6 @@ export const DASHBOARD_ROUTES: Routes = [
     {path: 'entry', component: EntryComponent},
     {path: 'departure', component: DepartureComponent},
     {path: 'user', component: UserComponent},
+    {path: 'inventory', component: InventoryComponent},
     {path: '**', pathMatch: 'full', redirectTo: 'budget'}
 ];

@@ -41,6 +41,8 @@ import { EntryDataTableComponent } from './entry/entry-data-table/entry-data-tab
 import { DepartureComponent } from './departure/departure.component';
 import { DepartureDataTableComponent } from './departure/departure-data-table/departure-data-table.component';
 import {MatCardModule} from "@angular/material/card";
+import { InventoryComponent } from './inventory/inventory.component';
+import { InventoryDataTableComponent } from './inventory/inventory-data-table/inventory-data-table.component';
 
 registerLocaleData(localeEs);
 
@@ -59,7 +61,9 @@ registerLocaleData(localeEs);
         EntryComponent,
         EntryDataTableComponent,
         DepartureComponent,
-        DepartureDataTableComponent
+        DepartureDataTableComponent,
+        InventoryComponent,
+        InventoryDataTableComponent
     ],
     exports: [
         DomseguroPipe,

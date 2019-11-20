@@ -19,4 +19,8 @@ export class ItemComponent implements OnInit {
 
     ngOnInit() {
     }
+
+    submit(form: NgForm) {
+        console.log('FORM ITEM --> ', form);
+    }
 }

@@ -1,6 +1,5 @@
 import {Component, OnInit} from '@angular/core';
 import {FormControl, FormGroup, NgForm, Validators} from '@angular/forms';
-import {ItemModel} from '../../../../models/item.model';
 
 @Component({
     selector: 'app-client',
@@ -27,8 +26,8 @@ export class ClientComponent implements OnInit {
     ngOnInit() {
     }
 
-    submit(form: NgForm) {
-        console.log('NEW CLIENT ---> ', form);
+    submit() {
+        console.log('NEW CLIENT ---> ', this.form);
     }
 
     getAttrMessage(attr: string) {
