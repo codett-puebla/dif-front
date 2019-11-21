@@ -17,7 +17,7 @@ export class AuthApiService {
   private closedSession = false;
 
   constructor(private _http: HttpClient) {
-    this.login();
+    // this.login();
   }
 
   login() {

@@ -1,5 +1,5 @@
 <mat-form-field class="w-100">
-    <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Busqueda">
+    <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Búsqueda">
 </mat-form-field>
 
 
@@ -49,10 +49,10 @@
         <ng-container matColumnDef="actions">
             <th mat-header-cell *matHeaderCellDef> Acciones</th>
             <td mat-cell *matCellDef="let element">
-                <button (click)="editClient(element)" type="button" mat-mini-fab class="bg-success mr-1">
+                <button (click)="editWarehouse(element)" type="button" mat-mini-fab class="bg-success mr-1">
                     <mat-icon>edit</mat-icon>
                 </button>
-                <button (click)="deleteClient(element.id)" type="button" mat-mini-fab class="bg-danger">
+                <button (click)="deleteWarehouse(element.id)" type="button" mat-mini-fab class="bg-danger">
                     <mat-icon>close</mat-icon>
                 </button>
             </td>

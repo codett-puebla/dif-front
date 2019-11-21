@@ -3,25 +3,9 @@ import {MatTableDataSource} from '@angular/material/table';
 import {WarehouseInterfaceModel} from '../../../../../models/warehouse.model';
 import {MatPaginator} from '@angular/material/paginator';
 import {MatSort} from '@angular/material/sort';
-
-const ELEMENT_DATA: WarehouseInterfaceModel[] = [
-        {
-            id: 1,
-            accountingAccount: 1132,
-            address: 'asdasdasd',
-            name: 'asdasd',
-            reason: 'ninguna',
-            status: 1,
-        }, {
-            id: 2,
-            accountingAccount: 1134,
-            address: 'asdasdasd',
-            name: 'aaaaaa',
-            reason: 'ninguna',
-            status: 1,
-        },
-    ]
-;
+import {WarehouseService} from '../../../../../services/warehouse/warehouse.service';
+import MessagesUtill from '../../../../../util/messages.utill';
+import {from, Observable} from 'rxjs';
 
 @Component({
     selector: 'app-warehouse-data-table',
@@ -32,16 +16,26 @@ export class WarehouseDataTableComponent implements OnInit, AfterViewInit {
 
     @Input() stateButton: boolean;
     @Output() stateButtonChange = new EventEmitter();
+
+    @Input() newWareHouse: boolean;
+    @Output() newWareHouseChange: EventEmitter<any>;
+
     displayedColumns: string[] = ['id', 'address', 'name', 'reason', 'accountingAccount', 'actions'];
     dataSource: MatTableDataSource<WarehouseInterfaceModel>;
+
     @ViewChild(MatPaginator, {static: false}) paginator: MatPaginator;
     @ViewChild(MatSort, {static: false}) sort: MatSort;
 
-    constructor() {
+
+    constructor(
+        private _warehouse: WarehouseService
+    ) {
+        this.dataSource = new MatTableDataSource();
+        this.getContentDataTable();
+        this.newWareHouseChange = new EventEmitter<any>();
     }
 
     ngOnInit() {
-        this.dataSource = new MatTableDataSource(ELEMENT_DATA);
     }
 
     applyFilter(filterValue: string) {
@@ -56,12 +50,19 @@ export class WarehouseDataTableComponent implements OnInit, AfterViewInit {
         return !this.stateButton ? 'Añadir' : 'Cancelar';
     }
 
-    editClient(element: any) {
-
+    editWarehouse(element: any) {
+        this.newWareHouseChange.emit(element);
     }
 
-    deleteClient(id: any) {
+    deleteWarehouse(id: number) {
+        MessagesUtill.deleteMessage(id,this.callbackDeleted.bind(this));
+    }
 
+    private callbackDeleted(id: number) {
+        this._warehouse.deletedWarehouse(id).subscribe(
+            response => this.getContentDataTable(),
+            error => console.log(error)
+        );
     }
 
     ngAfterViewInit(): void {
@@ -69,6 +70,16 @@ export class WarehouseDataTableComponent implements OnInit, AfterViewInit {
         console.log(this.sort);
         this.dataSource.paginator = this.paginator;
         this.dataSource.sort = this.sort;
+    }
+
+    getContentDataTable() {
+        this._warehouse.getAllWarehpuse().subscribe(
+            response => this.setContentDataTable(response),
+        );
+    }
+
+    setContentDataTable(data: any) {
+        this.dataSource.data = data;
     }
 
 }

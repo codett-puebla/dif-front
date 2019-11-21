@@ -19,7 +19,7 @@
 
                             <div class="col">
                                 <mat-form-field class="w-100" appearance="outline">
-                                    <input matInput formControlName="accountingAccount">
+                                    <input matInput formControlName="accountingAccount" type="number">
                                     <mat-label>Cuenta facturable</mat-label>
                                     <mat-error>{{getAttrMessage('accountingAccount')}}</mat-error>
                                 </mat-form-field>
@@ -71,7 +71,7 @@
             </mat-accordion>
         </div>
     </form>
-    <app-warehouse-data-table [(stateButton)]="panelOpenState"></app-warehouse-data-table>
+    <app-warehouse-data-table [(stateButton)]="panelOpenState"  (stateButtonChange)="setStatusOpenState( $event )" (newWareHouseChange)="editWarehouse($event)"></app-warehouse-data-table>
     <br>
     <br>
 </div>

@@ -2,7 +2,6 @@ import {Injectable} from '@angular/core';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {UserModel} from '../../models/user.model';
 import {AuthApiService} from './auth-api.service';
-
 import {map} from 'rxjs/operators';
 
 @Injectable({
