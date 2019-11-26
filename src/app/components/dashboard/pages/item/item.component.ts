@@ -53,7 +53,7 @@ export class ItemComponent implements OnInit {
                 warehouse: new FormControl('', [Validators.required]),
             }
         );
-        this.setDataWarehouse();
+        this._warehouse.getData(this.callbackSetDataWareHouseSelect.bind(this));
     }
 
     ngOnInit() {
@@ -94,7 +94,7 @@ export class ItemComponent implements OnInit {
                 response => {
                     this.panelOpenState = false;
                     this.form.reset();
-                    this.dataTable.getItems();
+                    this.dataTable.setDataSource(true);
                     Swal.close();
                     MessagesUtill.successMessage('Éxito', 'Nuevo registro');
                 },
@@ -111,7 +111,7 @@ export class ItemComponent implements OnInit {
             console.log(JSON.stringify(data));
             this._item.editItem(data).subscribe(
                 response => {
-                    this.dataTable.getItems();
+                    this.dataTable.setDataSource(true);
                     this.panelOpenState = false;
                     this.form.reset();
                     Swal.close();
@@ -132,14 +132,7 @@ export class ItemComponent implements OnInit {
                     '';
     }
 
-    setDataWarehouse() {
-        this._warehouse.getAllWarehpuse().subscribe(
-            response => this.formatDataSelect(response),
-            error => MessagesUtill.errorMessage('El servicio no se encuentra disponible'),
-        );
-    }
-
-    formatDataSelect(warehouse) {
+    callbackSetDataWareHouseSelect(warehouse) {
         this.warehouses = warehouse;
     }
 

@@ -3,6 +3,7 @@ import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {SERVER, PORT, BASE_PATH} from '../../util/const.util';
 import {ItemModel} from '../../models/item.model';
 import {map} from 'rxjs/operators';
+import MessagesUtill from '../../util/messages.utill';
 
 @Injectable({
     providedIn: 'root'
@@ -15,7 +16,7 @@ export class ItemService {
     private getAllItemsEndpoint = 'active/';
     private newItemEndpoint = 'new/';
     private url = SERVER + PORT + BASE_PATH + this.baseEndpoint;
-
+    private firstLoadService = true;
 
     constructor(private _http: HttpClient) {
         this.headers.append('Content-Type', 'application/json');
@@ -26,10 +27,7 @@ export class ItemService {
         return this._http.get(
             this.url + this.getAllItemsEndpoint,
             {headers: this.headers}
-        ).pipe(map(data => {
-            this.data = data;
-            return data;
-        }));
+        );
     }
 
     newItem(data) {
@@ -53,5 +51,24 @@ export class ItemService {
             data,
             {headers: this.headers}
         );
+    }
+
+    getData(callback: any, refresh = false) {
+
+        if (this.firstLoadService || refresh) {
+            this.getAllItems().subscribe(
+                response => {
+                    callback(response);
+                    this.firstLoadService = false;
+                    this.data = response;
+                } ,
+                error => {
+                    MessagesUtill.errorMessage('El servicio no esta disponible en este momento');
+                    callback([]);
+                }
+            );
+        } else {
+            callback(this.data);
+        }
     }
 }

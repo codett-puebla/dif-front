@@ -31,8 +31,8 @@ export class DataTableComponent implements OnInit, AfterViewInit {
     }
 
     ngOnInit() {
-        this.getItems();
         this.dataSource = new MatTableDataSource();
+        this.setDataSource();
     }
 
     ngAfterViewInit(): void {
@@ -62,19 +62,16 @@ export class DataTableComponent implements OnInit, AfterViewInit {
 
     private callbackDeleted(id: number) {
         this._itemService.deleteItem(id).subscribe(
-            response => this.getItems(),
+            response => this.setDataSource(true),
             error => console.log(error)
         );
     }
 
-    getItems() {
-        this._itemService.getAllItems().subscribe(
-            response => this.setDataTable(response),
-            error => console.log(error),
-        );
+    setDataSource(refresh = false) {
+        this._itemService.getData(this.callbackSetDataSource.bind(this), refresh);
     }
 
-    setDataTable(item) {
+    callbackSetDataSource(item) {
         console.log('DATA ---> ', item);
         this.dataSource.data = item;
     }

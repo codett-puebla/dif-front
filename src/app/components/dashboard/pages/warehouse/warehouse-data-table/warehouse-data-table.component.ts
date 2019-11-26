@@ -17,7 +17,6 @@ export class WarehouseDataTableComponent implements OnInit, AfterViewInit {
     @Input() stateButton: boolean;
     @Output() stateButtonChange = new EventEmitter();
 
-    @Input() newWareHouse: boolean;
     @Output() newWareHouseChange: EventEmitter<any>;
 
     displayedColumns: string[] = ['id', 'address', 'name', 'reason', 'accountingAccount', 'actions'];
@@ -30,12 +29,12 @@ export class WarehouseDataTableComponent implements OnInit, AfterViewInit {
     constructor(
         private _warehouse: WarehouseService
     ) {
-        this.dataSource = new MatTableDataSource();
-        this.getContentDataTable();
         this.newWareHouseChange = new EventEmitter<any>();
     }
 
     ngOnInit() {
+        this.dataSource = new MatTableDataSource();
+        this.setDataSource();
     }
 
     applyFilter(filterValue: string) {
@@ -55,31 +54,26 @@ export class WarehouseDataTableComponent implements OnInit, AfterViewInit {
     }
 
     deleteWarehouse(id: number) {
-        MessagesUtill.deleteMessage(id,this.callbackDeleted.bind(this));
+        MessagesUtill.deleteMessage(id, this.callbackDeleted.bind(this));
     }
 
     private callbackDeleted(id: number) {
         this._warehouse.deletedWarehouse(id).subscribe(
-            response => this.getContentDataTable(),
+            response => this.setDataSource(true),
             error => console.log(error)
         );
     }
 
     ngAfterViewInit(): void {
-        console.log(this.paginator);
-        console.log(this.sort);
         this.dataSource.paginator = this.paginator;
         this.dataSource.sort = this.sort;
     }
 
-    getContentDataTable() {
-        this._warehouse.getAllWarehpuse().subscribe(
-            response => this.setContentDataTable(response),
-            error => MessagesUtill.errorMessage('El servicio no esta disponible en este momento')
-        );
+    setDataSource(refresh = false) {
+        this._warehouse.getData(this.callbackSetDataSource.bind(this), refresh);
     }
 
-    setContentDataTable(data: any) {
+    callbackSetDataSource(data: any) {
         this.dataSource.data = data;
     }
 

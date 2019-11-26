@@ -55,7 +55,7 @@ export class WarehouseComponent implements OnInit, AfterViewInit {
             data.id = this.dataEditWarehouse.id;
             this._warehouse.editWarehouse(data).subscribe(
                 response => {
-                    this.dataTable.getContentDataTable();
+                    this.dataTable.setDataSource(true);
                     this.editForm = false;
                     this.panelOpenState = false;
                     Swal.close();
@@ -68,7 +68,7 @@ export class WarehouseComponent implements OnInit, AfterViewInit {
                 }
             );
         } else {
-            this._warehouse.newWarehpuse(data).subscribe(
+            this._warehouse.newWarehouse(data).subscribe(
                 response => this.successRegisterWareHouse(),
                 error => {
                     Swal.close();
@@ -84,7 +84,7 @@ export class WarehouseComponent implements OnInit, AfterViewInit {
         this.form.reset();
         this.panelOpenState = false;
         this.newWarehouse = true;
-        this.dataTable.getContentDataTable();
+        this.dataTable.setDataSource(true);
     }
 
     getAttrMessage(attr: string) {

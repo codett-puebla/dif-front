@@ -1,48 +1,73 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit, ViewChild} from '@angular/core';
 import {FormControl, FormGroup, NgForm, Validators} from '@angular/forms';
+import {InventoryModel} from '../../../../models/inventory.model';
+import {InventoryDataTableComponent} from './inventory-data-table/inventory-data-table.component';
+import {WarehouseService} from '../../../../services/warehouse/warehouse.service';
+import {ItemService} from '../../../../services/item/item.service';
+import {ItemModel} from '../../../../models/item.model';
 
 @Component({
-  selector: 'app-inventory',
-  templateUrl: './inventory.component.html',
-  styleUrls: ['./inventory.component.css']
+    selector: 'app-inventory',
+    templateUrl: './inventory.component.html',
+    styleUrls: ['./inventory.component.css']
 })
 
 export class InventoryComponent implements OnInit {
-  panelOpenState = false;
-  form: FormGroup;
+    panelOpenState = false;
+    form: FormGroup;
+    editForm: boolean;
+    @ViewChild(InventoryDataTableComponent, {static: false})
+    datatable: InventoryDataTableComponent;
+    warehouses: any[] = [];
+    items: any[] = [];
 
-  warehouse: any[] = [
-    {value: '1', viewValue: 'Bodega1'},
-    {value: '2', viewValue: 'Bodega2'},
-  ];
+    constructor(
+        // private _warehouse: WarehouseService,
+        // private _item: ItemService
+    ) {
+        // this.form = new FormGroup(
+        //     {
+        //         warehouse: new FormControl('', [Validators.required]),
+        //         item: new FormControl('', [Validators.required]),
+        //         quantity: new FormControl('', [Validators.required, Validators.minLength(1)])
+        //     }
+        // );
+        // this.editForm = false;
+        // this._item.getData(this.setContentItemSelected.bind(this));
+        // this._warehouse.getData(this.setContentWarehouseSelected.bind(this));
+    }
 
-  item: any[] = [
-    {value: '1', viewValue: 'Item1'},
-    {value: '2', viewValue: 'Item2'},
-  ];
+    ngOnInit() {
+    }
 
-  constructor() {
-    this.form = new FormGroup(
-        {
-          idWarehouse: new FormControl('', [Validators.required]),
-          idItem: new FormControl('', [Validators.required]),
-          quantity: new FormControl('', [Validators.required, Validators.minLength(1)])
+    getAttrMessage(attr: string) {
+        const abstractControl = this.form.get(attr);
+        return abstractControl.hasError('required') ? '* Requerido' :
+            abstractControl.hasError('minlength') ? 'Minimo de Caracteres: 3' :
+                abstractControl.hasError('maxlength') ? 'Máximo de Caracteres: 30' :
+                    '';
+    }
+
+    setStatusOpenState(status: boolean) {
+        if (!status) {
+            this.form.reset();
+            this.editForm = false;
         }
-    );
-  }
+    }
 
-  ngOnInit() {
-  }
+    editInventory(event: InventoryModel) {
+        this.form.get('quantity').setValue(event.quantity);
+        this.editForm = true;
+        this.panelOpenState = true;
+    }
 
-  submit() {
-    console.log('NEW CLIENT ---> ', this.form);
-  }
+    setContentItemSelected(data) {
+      console.log('SI FUNCA WE -->', data);
+        this.items = data;
+    }
 
-  getAttrMessage(attr: string) {
-    const abstractControl = this.form.get(attr);
-    return abstractControl.hasError('required') ? '* Requerido' :
-        abstractControl.hasError('minlength') ? 'Minimo de Caracteres: 3' :
-            abstractControl.hasError('maxlength') ? 'Máximo de Caracteres: 30' :
-                '';
+  setContentWarehouseSelected(data) {
+    console.log('SI FUNCA WE -->', data);
+    this.warehouses = data;
   }
 }

@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import {ItemService} from '../../services/item/item.service';
+import {WarehouseService} from '../../services/warehouse/warehouse.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -10,7 +12,10 @@ export class DashboardComponent implements OnInit {
 
   toggle: boolean;
 
-  constructor() { }
+  constructor(
+      private _item: ItemService,
+      private _warehouse: WarehouseService,
+  ) { }
 
   ngOnInit() {
   }

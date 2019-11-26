@@ -3,6 +3,8 @@ import {MatPaginator, MatSort, MatTableDataSource} from '@angular/material';
 import {InventoryModel} from '../../../../../models/inventory.model';
 import {InventoryService} from '../../../../../services/inventory/inventory.service';
 import MessagesUtill from '../../../../../util/messages.utill';
+import {WarehouseService} from '../../../../../services/warehouse/warehouse.service';
+import {ItemService} from '../../../../../services/item/item.service';
 
 @Component({
     selector: 'app-inventory-data-table',
@@ -13,7 +15,7 @@ import MessagesUtill from '../../../../../util/messages.utill';
 export class InventoryDataTableComponent implements OnInit, AfterViewInit {
 
     // tslint:disable-next-line:max-line-length
-    displayedColumns: string[] = ['id', 'idWarehouse', 'idItem', 'quantity', 'actions'];
+    displayedColumns: string[] = ['id', 'item', 'quantity', 'warehouse'];
     dataSource: MatTableDataSource<InventoryModel>;
     @ViewChild(MatPaginator, {static: false}) paginator: MatPaginator;
     @ViewChild(MatSort, {static: false}) sort: MatSort;
@@ -21,34 +23,16 @@ export class InventoryDataTableComponent implements OnInit, AfterViewInit {
     @Input() stateButton: boolean;
     @Output() stateButtonChange = new EventEmitter();
 
+    @Output() editInventoryEmitter: EventEmitter<any>;
     constructor(
         private _inventory: InventoryService
     ) {
-      this.getAllInventory();
+      this.editInventoryEmitter = new EventEmitter<any>();
     }
 
     ngOnInit() {
         this.dataSource = new MatTableDataSource();
-    }
-
-    applyFilter(filterValue: string) {
-        this.dataSource.filter = filterValue.trim().toLowerCase();
-    }
-
-    openAccordion() {
-        this.stateButtonChange.emit(!this.stateButton);
-    }
-
-    getAction(): string {
-        return !this.stateButton ? 'Añadir' : 'Cancelar';
-    }
-
-    editClient(element: any) {
-
-    }
-
-    deleteClient(id: any) {
-
+        this._inventory.getData(this.setDataSource.bind(this));
     }
 
     ngAfterViewInit(): void {
@@ -58,15 +42,38 @@ export class InventoryDataTableComponent implements OnInit, AfterViewInit {
         this.dataSource.sort = this.sort;
     }
 
-    getAllInventory() {
-      this._inventory.getAllInventory().subscribe(
-          reponse =>this.setDataSource(reponse),
-          error => MessagesUtill.errorMessage('El servicio no esta disponible')
-      );
-    }
 
     setDataSource(data: any) {
         console.log('DATA --> ', data);
         this.dataSource.data = data;
     }
+
+    applyFilter(filterValue: string) {
+        this.dataSource.filter = filterValue.trim().toLowerCase();
+    }
+
+    // openAccordion() {
+    //     this.stateButtonChange.emit(!this.stateButton);
+    // }
+    //
+    // getAction(): string {
+    //     return !this.stateButton ? 'Añadir' : 'Cancelar';
+    // }
+
+    // editInventory(element: any) {
+    //     console.log('SE EDITA PAPU --> ', element);
+    //     this.editInventoryEmitter.emit(element);
+    // }
+    //
+    // deleteInventory(id: any) {
+    //     console.log('SE BORRA PAPU --> ', id);
+    //     MessagesUtill.deleteMessage(id, this.callbackDeleted.bind(this));
+    // }
+
+    // private callbackDeleted(id: number) {
+    //     this._inventory.deleteInventory(id).subscribe(
+    //         response => this.getAllInventory(),
+    //         error => console.log(error)
+    //     );
+    // }
 }

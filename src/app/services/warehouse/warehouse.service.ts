@@ -2,6 +2,7 @@ import {Injectable} from '@angular/core';
 import {SERVER, PORT, BASE_PATH} from '../../util/const.util';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {WarehouseModel} from '../../models/warehouse.model';
+import MessagesUtill from '../../util/messages.utill';
 
 @Injectable({
     providedIn: 'root'
@@ -12,7 +13,8 @@ export class WarehouseService {
     private newWarehouseEndpoint = 'new';
     private headers = new HttpHeaders();
     private url = SERVER + PORT + BASE_PATH + this.baseEndpoint;
-
+    private data: any;
+    private firstLoadService = true;
     constructor(
         private _http: HttpClient
     ) {
@@ -20,11 +22,14 @@ export class WarehouseService {
       this.headers.append('Access-Control-Allow-Origin', '*');
     }
 
-    getAllWarehpuse() {
-        return this._http.get(this.url + this.getWarehouseEndpoint, {headers: this.headers});
+    getAllWarehouse() {
+        return this._http.get(
+            this.url + this.getWarehouseEndpoint,
+            {headers: this.headers}
+            );
     }
 
-    newWarehpuse(data) {
+    newWarehouse(data) {
         return this._http.post(
             this.url + this.newWarehouseEndpoint,
             data,
@@ -38,5 +43,23 @@ export class WarehouseService {
     editWarehouse(data: WarehouseModel) {
         return this._http.put(this.url, data,
             { headers: this.headers });
+    }
+
+    getData(callback: any, refresh = false) {
+        if (this.firstLoadService || refresh) {
+            this.getAllWarehouse().subscribe(
+                response => {
+                    callback(response);
+                    this.firstLoadService = false;
+                    this.data = response;
+                } ,
+                error =>  {
+                    MessagesUtill.errorMessage('El servicio no esta disponible en este momento');
+                    callback([]);
+                }
+            );
+        } else {
+            callback(this.data);
+        }
     }
 }

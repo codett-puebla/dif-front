@@ -9,14 +9,14 @@
         <!--  section add-->
         <div class="col-2">
             <!--            <button (click)="addArea()" type="button" mat-raised-button class="bg-primary text-white">-->
-            <button (click)="openAccordion()" type="button" mat-raised-button class="bg-primary text-white mb-2 mt-2"
+            <!--<button (click)="openAccordion()" type="button" mat-raised-button class="bg-primary text-white mb-2 mt-2"
                     [ngClass]="{'bg-danger':stateButton }">
                 <mat-icon *ngIf="!stateButton;else canView">add_circle_outline</mat-icon>
                 <ng-template #canView>
                     <mat-icon>cancel</mat-icon>
                 </ng-template>
                 <span> {{getAction()}} </span>
-            </button>
+            </button>-->
         </div>
     </div>
     <table mat-table [dataSource]="dataSource" class="mat-elevation-z8 w-100" matSort>
@@ -27,12 +27,12 @@
             <td mat-cell *matCellDef="let element"> {{element.id}} </td>
         </ng-container>
 
-        <ng-container matColumnDef="idWarehouse">
+        <ng-container matColumnDef="warehouse">
             <th mat-header-cell *matHeaderCellDef mat-sort-header> Bodega</th>
             <td mat-cell *matCellDef="let element"> {{element.warehouse.name}} </td>
         </ng-container>
 
-        <ng-container matColumnDef="idItem">
+        <ng-container matColumnDef="item">
             <th mat-header-cell *matHeaderCellDef mat-sort-header> Artículo</th>
             <td mat-cell *matCellDef="let element"> {{element.item.line + ' - ' + element.item.trademark}} </td>
         </ng-container>
@@ -43,17 +43,17 @@
         </ng-container>
 
         <!-- Action Columns Column -->
-        <ng-container matColumnDef="actions">
+        <!--<ng-container matColumnDef="actions">
             <th mat-header-cell *matHeaderCellDef> Acciones</th>
             <td mat-cell *matCellDef="let element">
-                <button (click)="editClient(element)" type="button" mat-mini-fab class="bg-success mr-1">
+                <button (click)="editInventory(element)" type="button" mat-mini-fab class="bg-success mr-1">
                     <mat-icon>edit</mat-icon>
                 </button>
-                <button (click)="deleteClient(element.id)" type="button" mat-mini-fab class="bg-danger">
+                <button (click)="deleteInventory(element.id)" type="button" mat-mini-fab class="bg-danger">
                     <mat-icon>close</mat-icon>
                 </button>
             </td>
-        </ng-container>
+        </ng-container>-->
         <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
         <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
     </table>
