@@ -1,11 +1,11 @@
 <div class="container-fluid">
-    <form (ngSubmit)="submit(f)" #f="ngForm" class="login100-form validate-form">
+    <form (ngSubmit)="submit()" [formGroup]="form" class="login100-form validate-form">
         <div class="form-group">
             <mat-accordion>
                 <mat-expansion-panel [(expanded)]="panelOpenState">
                     <mat-expansion-panel-header>
                         <mat-panel-title>
-                            artículos
+                            Artículos
                         </mat-panel-title>
                         <mat-panel-description>
                             Llene los campos para artículos
@@ -18,129 +18,144 @@
                         <div class="row justify-content-center">
                             <div class="col">
                                 <div class="row margen">
-
-                                    <div class="col pr-0 pl-0">
-                                        <div class="row justify-content-center">
-                                            <mat-form-field class="w-75" appearance="outline">
-                                                <input matInput placeholder="Código" name="code"
-                                                       [(ngModel)]="newItem.code">
-                                            </mat-form-field>
-                                        </div>
+                                    <div class="col">
+                                        <mat-form-field class="w-100" appearance="outline">
+                                            <mat-label>Código</mat-label>
+                                            <input matInput  formControlName="code">
+                                            <mat-error>{{getAttrMessage('code')}}</mat-error>
+                                        </mat-form-field>
                                     </div>
 
-                                    <div class="col pr-0 pl-0">
-                                        <div class="row justify-content-center">
-                                            <mat-checkbox class="example-margin w-75" name="billable"
-                                                          [(ngModel)]="newItem.billable">Facturable
-                                            </mat-checkbox>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="row margen">
-                                    <div class="col pr-0 pl-0">
-                                        <div class="row justify-content-center">
-                                            <mat-form-field class="w-75" appearance="outline">
-                                                <input matInput placeholder="Descripción" name="description"
-                                                       [(ngModel)]="newItem.description">
-                                            </mat-form-field>
-                                        </div>
+                                    <div class="col">
+                                        <mat-form-field class="w-100" appearance="outline">
+                                            <mat-label>Marca</mat-label>
+                                            <input matInput  formControlName="trademark">
+                                            <mat-error>{{getAttrMessage('unitMeasurePurchase')}}</mat-error>
+                                        </mat-form-field>
                                     </div>
 
-                                    <div class="col pr-0 pl-0">
-                                        <div class="row justify-content-center">
-                                            <mat-form-field class="w-75" appearance="outline">
-                                                <input matInput placeholder="Imagen" name="image"
-                                                       [(ngModel)]="newItem.image">
-                                            </mat-form-field>
-                                        </div>
+                                    <div class="col">
+                                        <mat-form-field class="w-100" appearance="outline">
+                                            <mat-label>Linea</mat-label>
+                                            <input matInput  formControlName="line">
+                                            <mat-error>{{getAttrMessage('line')}}</mat-error>
+                                        </mat-form-field>
+                                    </div>
+
+                                    <div class="col">
+                                        <mat-label>Facturable</mat-label>
+                                        <mat-checkbox class="example-margin w-100" formControlName="billable"></mat-checkbox>
+                                        <mat-error>{{getAttrMessage('billable')}}</mat-error>
                                     </div>
                                 </div>
 
                                 <div class="row margen">
-                                    <div class="col pr-0 pl-0">
-                                        <div class="row justify-content-center">
-                                            <mat-form-field class="w-75" appearance="outline">
-                                                <input matInput placeholder="Linea" name="line"
-                                                       [(ngModel)]="newItem.line">
-                                            </mat-form-field>
-                                        </div>
+                                    <div class="col">
+                                        <mat-form-field class="w-100" appearance="outline">
+                                            <mat-label>Precio de compras</mat-label>
+                                            <input matInput type="number" formControlName="purchaseAmount">
+                                            <mat-error>{{getAttrMessage('purchaseAmount')}}</mat-error>
+                                        </mat-form-field>
                                     </div>
 
-                                    <div class="col pr-0 pl-0">
-                                        <div class="row justify-content-center">
-                                            <mat-form-field class="w-75" appearance="outline">
-                                                <input matInput placeholder="Precio de compras" name="purchaseAmount"
-                                                       [(ngModel)]="newItem.purchaseAmount">
-                                            </mat-form-field>
-                                        </div>
+                                    <div class="col">
+                                        <mat-form-field class="w-100" appearance="outline">
+                                            <mat-label>Precio de venta</mat-label>
+                                            <input matInput type="number" formControlName="saleAmount">
+                                            <mat-error>{{getAttrMessage('saleAmount')}}</mat-error>
+                                        </mat-form-field>
+                                    </div>
+
+                                    <div class="col">
+                                        <mat-form-field class="w-100" appearance="outline">
+                                            <mat-label>Unidad de venta</mat-label>
+                                            <input matInput type="number" formControlName="unitMeasurePurchase">
+                                            <mat-error>{{getAttrMessage('unitMeasurePurchase')}}</mat-error>
+                                        </mat-form-field>
+                                    </div>
+
+                                    <div class="col">
+                                        <mat-form-field class="w-100" appearance="outline">
+                                            <mat-label>Unidad de medida de venta</mat-label>
+                                            <input matInput type="number" formControlName="unitMeasureSale">
+                                            <mat-error>{{getAttrMessage('unitMeasureSale')}}</mat-error>
+                                        </mat-form-field>
                                     </div>
                                 </div>
 
                                 <div class="row margen">
-                                    <div class="col pr-0 pl-0">
-                                        <div class="row justify-content-center">
-                                            <mat-form-field class="w-75" appearance="outline">
-                                                <input matInput placeholder="Precio de venta" name="saleAmount"
-                                                       [(ngModel)]="newItem.saleAmount">
-                                            </mat-form-field>
-                                        </div>
+
+                                    <div class="col">
+                                        <mat-form-field class="w-100" appearance="outline">
+                                            <mat-label>Cantidad</mat-label>
+                                            <input matInput type="number" formControlName="quantity">
+                                            <mat-error>{{getAttrMessage('quantity')}}</mat-error>
+                                        </mat-form-field>
                                     </div>
 
-                                    <div class="col pr-0 pl-0">
-                                        <div class="row justify-content-center">
-                                            <mat-form-field class="w-75" appearance="outline">
-                                                <input matInput placeholder="Marca" name="trademark"
-                                                       [(ngModel)]="newItem.trademark">
-                                            </mat-form-field>
-                                        </div>
+                                    <div class="col">
+                                        <mat-form-field class="w-100" appearance="outline">
+                                            <mat-label>Bodega</mat-label>
+                                            <mat-select formControlName="warehouse">
+                                                <mat-option *ngFor="let warehouse of warehouses" [value]="warehouse">
+                                                    {{warehouse.name}}
+                                                </mat-option>
+                                            </mat-select>
+                                            <mat-error>{{getAttrMessage('warehouse')}}</mat-error>
+                                        </mat-form-field>
+                                    </div>
+
+                                    <div class="col">
+                                        <mat-label>Almacenable</mat-label>
+                                        <mat-checkbox class="example-margin w-100" formControlName="storable"></mat-checkbox>
+                                        <mat-error>{{getAttrMessage('storable')}}</mat-error>
+                                    </div>
+
+                                </div>
+
+                                <div class="row margen">
+                                    <div class="col">
+                                        <mat-form-field class="w-100" appearance="outline">
+                                            <mat-label>Descripción</mat-label>
+                                            <textarea matInput  formControlName="description"></textarea>
+                                            <mat-error>{{getAttrMessage('description')}}</mat-error>
+                                        </mat-form-field>
                                     </div>
                                 </div>
 
                                 <div class="row margen">
-                                    <div class="col pr-0 pl-0">
-                                        <div class="row justify-content-center">
-                                            <mat-form-field class="w-75" appearance="outline">
-                                                <input matInput placeholder="Unidad de venta" name="unitMeasurePurchase"
-                                                       [(ngModel)]="newItem.unitMeasurePurchase">
-                                            </mat-form-field>
-                                        </div>
-                                    </div>
-
-                                    <div class="col pr-0 pl-0">
-                                        <div class="row justify-content-center">
-                                            <mat-form-field class="w-75" appearance="outline">
-                                                <input matInput placeholder="Unidad de medida de venta"
-                                                       name="unitMeasureSale" [(ngModel)]="newItem.unitMeasureSale">
-                                            </mat-form-field>
-                                        </div>
+                                    <div class="col" style="display: none">
+                                        <mat-form-field class="w-100" appearance="outline">
+                                            <mat-label>Imagen" formControlName="</mat-label>
+                                            <textarea matInput  formControlName="image"></textarea>
+                                            <mat-error>{{getAttrMessage('image')}}</mat-error>
+                                        </mat-form-field>
                                     </div>
                                 </div>
+
                             </div>
                         </div>
                     </div>
 
-
                     <div class="row justify-content-center">
                         <div class="col">
                             <button mat-button class="bg-secondary text-white btn-block" type="button"
-                                    (click)="f.reset()">
+                                    (click)="setStatusOpenState(false)">
                                 Limpiar Formulario
                             </button>
                         </div>
                         <div class="col">
-                            <button mat-button type="submit" [disabled]="!f.valid"
+                            <button mat-button type="submit" [disabled]="!form.valid"
                                     class="bg-primary text-white btn-block">
                                 Guardar
                             </button>
                         </div>
                     </div>
-
-
                 </mat-expansion-panel>
             </mat-accordion>
         </div>
     </form>
-    <app-data-table [(stateButton)]="panelOpenState"></app-data-table>
+    <app-data-table [(stateButton)]="panelOpenState" (stateButtonChange)="setStatusOpenState($event)" (editItemEmitter)="editItem($event)"></app-data-table>
     <br>
     <br>
 </div>

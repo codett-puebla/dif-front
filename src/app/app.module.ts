@@ -21,6 +21,7 @@ import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {ContextMenuModule} from 'ngx-contextmenu';
 import {NotFoundComponent} from './components/shared/not-found/not-found.component';
 
+
 @NgModule({
     declarations: [
         AppComponent,

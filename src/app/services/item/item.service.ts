@@ -1,5 +1,8 @@
 import {Injectable} from '@angular/core';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
+import {SERVER, PORT, BASE_PATH} from '../../util/const.util';
+import {ItemModel} from '../../models/item.model';
+import {map} from 'rxjs/operators';
 
 @Injectable({
     providedIn: 'root'
@@ -8,7 +11,10 @@ import {HttpClient, HttpHeaders} from '@angular/common/http';
 export class ItemService {
     private data;
     private headers = new HttpHeaders();
-    private endpoint = 'http://165.22.2.168:8080/DIFAPI/item/';
+    private baseEndpoint = 'item/';
+    private getAllItemsEndpoint = 'active/';
+    private newItemEndpoint = 'new/';
+    private url = SERVER + PORT + BASE_PATH + this.baseEndpoint;
 
 
     constructor(private _http: HttpClient) {
@@ -16,19 +22,36 @@ export class ItemService {
         this.headers.append('Access-Control-Allow-Origin', '*');
     }
 
-    loadData() {
-        this._http.get(
-            this.endpoint + '/active',
+    getAllItems() {
+        return this._http.get(
+            this.url + this.getAllItemsEndpoint,
+            {headers: this.headers}
+        ).pipe(map(data => {
+            this.data = data;
+            return data;
+        }));
+    }
+
+    newItem(data) {
+        return this._http.post(
+            this.url + this.newItemEndpoint,
+            data,
             {headers: this.headers}
         );
     }
 
-    getData() {
-        return this.data;
+    deleteItem(id: number) {
+        return this._http.delete(
+            this.url + id,
+            {headers: this.headers}
+        );
     }
 
-    setData(data) {
-        this.data = data;
+    editItem(data: ItemModel) {
+        return this._http.put(
+            this.url,
+            data,
+            {headers: this.headers}
+        );
     }
-
 }

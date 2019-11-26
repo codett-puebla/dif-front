@@ -26,8 +26,8 @@ export class EntryComponent implements OnInit {
     ngOnInit() {
     }
 
-    submit(form: NgForm) {
-        console.log('NEW CLIENT ---> ', form);
+    submit() {
+        console.log('NEW CLIENT ---> ', this.form);
     }
 
     getAttrMessage(attr: string) {

@@ -1,50 +1,10 @@
 import {AfterViewInit, Component, EventEmitter, Input, OnInit, Output, ViewChild} from '@angular/core';
 import {MatTableDataSource} from '@angular/material/table';
-import {ItemInterface, ItemModel} from '../../../../../models/item.model';
+import {ItemModel} from '../../../../../models/item.model';
 import {MatPaginator, MatSort} from '@angular/material';
-
-
-const ELEMENT_DATA: ItemInterface[] = [
-    {
-        id: 1,
-        code: 'Hydrogen',
-        description: 'ejemplo',
-        image: 'ejemplo',
-        line: 'ejemplo',
-        purchaseAmount: 10,
-        saleAmount: 11,
-        trademark: 'xbox',
-        unitMeasurePurchase: 0,
-        unitMeasureSale: 12,
-        billable: false
-    },
-    {
-        id: 2,
-        code: 'Helium',
-        description: 'ejemplo',
-        image: 'ejemplo',
-        line: 'ejemplo',
-        purchaseAmount: 10,
-        saleAmount: 11,
-        trademark: 'xbox',
-        unitMeasurePurchase: 0,
-        unitMeasureSale: 12,
-        billable: false
-    },
-    {
-        id: 3,
-        code: 'Lithium',
-        description: 'ejemplo',
-        image: 'ejemplo',
-        line: 'test',
-        purchaseAmount: 10,
-        saleAmount: 11,
-        trademark: 'xbox',
-        unitMeasurePurchase: 0,
-        unitMeasureSale: 12,
-        billable: false
-    },
-];
+import {ItemService} from '../../../../../services/item/item.service';
+import Swal from 'sweetalert2';
+import MessagesUtill from '../../../../../util/messages.utill';
 
 @Component({
     selector: 'app-data-table',
@@ -54,20 +14,30 @@ const ELEMENT_DATA: ItemInterface[] = [
 
 export class DataTableComponent implements OnInit, AfterViewInit {
     // tslint:disable-next-line:max-line-length
-    displayedColumns: string[] = ['id', 'code', 'description', 'image', 'line', 'purchaseAmount', 'saleAmount', 'trademark', 'unitMeasurePurchase', 'unitMeasureSale', 'actions'];
-    dataSource: MatTableDataSource<ItemInterface>;
-
+    displayedColumns: string[] = ['id', 'code', 'trademark', 'line', 'purchaseAmount', 'saleAmount', 'unitMeasurePurchase', 'unitMeasureSale', 'description', 'actions'];
+    dataSource: MatTableDataSource<ItemModel>;
     @ViewChild(MatPaginator, {static: false}) paginator: MatPaginator;
     @ViewChild(MatSort, {static: false}) sort: MatSort;
-
     @Input() stateButton: boolean;
     @Output() stateButtonChange = new EventEmitter();
 
-    constructor() {
+    @Output() editItemEmitter: EventEmitter<any>;
+    @Input() newItem: boolean;
+
+    constructor(
+        private _itemService: ItemService,
+    ) {
+        this.editItemEmitter = new EventEmitter<any>();
     }
 
     ngOnInit() {
-        this.dataSource = new MatTableDataSource(ELEMENT_DATA);
+        this.getItems();
+        this.dataSource = new MatTableDataSource();
+    }
+
+    ngAfterViewInit(): void {
+        this.dataSource.paginator = this.paginator;
+        this.dataSource.sort = this.sort;
     }
 
     applyFilter(filterValue: string) {
@@ -82,18 +52,30 @@ export class DataTableComponent implements OnInit, AfterViewInit {
         return !this.stateButton ? 'Añadir' : 'Cancelar';
     }
 
-    editClient(element: any) {
-
+    editItem(element: any) {
+        this.editItemEmitter.emit(element);
     }
 
-    deleteClient(id: any) {
-
+    deleteItem(id: any) {
+        MessagesUtill.deleteMessage(id, this.callbackDeleted.bind(this));
     }
 
-    ngAfterViewInit(): void {
-        console.log(this.paginator);
-        console.log(this.sort);
-        this.dataSource.paginator = this.paginator;
-        this.dataSource.sort = this.sort;
+    private callbackDeleted(id: number) {
+        this._itemService.deleteItem(id).subscribe(
+            response => this.getItems(),
+            error => console.log(error)
+        );
+    }
+
+    getItems() {
+        this._itemService.getAllItems().subscribe(
+            response => this.setDataTable(response),
+            error => console.log(error),
+        );
+    }
+
+    setDataTable(item) {
+        console.log('DATA ---> ', item);
+        this.dataSource.data = item;
     }
 }

@@ -75,6 +75,7 @@ export class WarehouseDataTableComponent implements OnInit, AfterViewInit {
     getContentDataTable() {
         this._warehouse.getAllWarehpuse().subscribe(
             response => this.setContentDataTable(response),
+            error => MessagesUtill.errorMessage('El servicio no esta disponible en este momento')
         );
     }
 

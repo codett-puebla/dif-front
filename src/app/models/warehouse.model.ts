@@ -1,5 +1,5 @@
 
-export interface WarehouseInterfaceModel{
+export interface WarehouseInterfaceModel {
     id: number;
     accountingAccount: number;
     address: string;
@@ -8,7 +8,8 @@ export interface WarehouseInterfaceModel{
     status: number;
 }
 
-export class WarehouseModel{
+export class WarehouseModel {
+    id = 0;
     accountingAccount = 0;
     address = '';
     name = '';

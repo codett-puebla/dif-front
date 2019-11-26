@@ -1,18 +1,18 @@
 import Swal from 'sweetalert2';
 
 export default class MessagesUtill {
-    static errorMessage(tittle: string, message: string) {
+    static errorMessage(message: string) {
         Swal.fire({
             type: 'error',
-            title: 'Error: ' + tittle,
+            title: 'Error',
             text: message
         });
     }
 
-    static infoMessage(tittle: string, message: string) {
+    static infoMessage(message: string) {
         Swal.fire({
             type: 'info',
-            title: tittle,
+            title: 'Información',
             text: message
         });
     }
@@ -29,7 +29,7 @@ export default class MessagesUtill {
         Swal.fire({
             title: '¿Deseas eliminar el registro?',
             text: 'Se eliminara de manera permanente',
-            icon: 'warning',
+            // icon: 'warning',
             showCancelButton: true,
             confirmButtonColor: '#3085d6',
             cancelButtonColor: '#d33',

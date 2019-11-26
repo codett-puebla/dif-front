@@ -3,8 +3,9 @@ import {WarehouseModel} from './../../../../models/warehouse.model';
 import {FormControl, FormGroup, NgForm, Validators} from '@angular/forms';
 import {WarehouseService} from '../../../../services/warehouse/warehouse.service';
 import MessagesUtill from '../../../../util/messages.utill';
-import Swal from 'sweetalert2';
 import {WarehouseDataTableComponent} from './warehouse-data-table/warehouse-data-table.component';
+
+import Swal from 'sweetalert2';
 
 
 @Component({
@@ -12,7 +13,7 @@ import {WarehouseDataTableComponent} from './warehouse-data-table/warehouse-data
     templateUrl: './warehouse.component.html',
     styleUrls: ['./warehouse.component.css']
 })
-export class WarehouseComponent implements OnInit, AfterViewInit{
+export class WarehouseComponent implements OnInit, AfterViewInit {
 
     @ViewChild(WarehouseDataTableComponent, { static: false })
     dataTable: WarehouseDataTableComponent;
@@ -63,7 +64,7 @@ export class WarehouseComponent implements OnInit, AfterViewInit{
                 error => {
                     console.log('Error ----> ', error);
                     Swal.close();
-                    MessagesUtill.errorMessage('Error', 'El servicio no esta disponible');
+                    MessagesUtill.errorMessage('El servicio no esta disponible');
                 }
             );
         } else {
@@ -71,7 +72,7 @@ export class WarehouseComponent implements OnInit, AfterViewInit{
                 response => this.successRegisterWareHouse(),
                 error => {
                     Swal.close();
-                    MessagesUtill.errorMessage('Bodegas', 'El servicio no esta disponible en este momento');
+                    MessagesUtill.errorMessage('El servicio no esta disponible en este momento');
                 },
             );
         }
@@ -94,14 +95,14 @@ export class WarehouseComponent implements OnInit, AfterViewInit{
                     '';
     }
 
-    editWarehouse($event: WarehouseModel) {
+    editWarehouse(event: WarehouseModel) {
         this.panelOpenState = true;
-        this.form.get('name').setValue($event.name);
-        this.form.get('address').setValue($event.address);
-        this.form.get('reason').setValue($event.reason);
-        this.form.get('accountingAccount').setValue($event.accountingAccount);
+        this.form.get('name').setValue(event.name);
+        this.form.get('address').setValue(event.address);
+        this.form.get('reason').setValue(event.reason);
+        this.form.get('accountingAccount').setValue(event.accountingAccount);
         this.editForm = true;
-        this.dataEditWarehouse = $event;
+        this.dataEditWarehouse = event;
     }
 
     setStatusOpenState(status: boolean) {

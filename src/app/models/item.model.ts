@@ -1,18 +1,4 @@
-export class ItemModel {
-    billable = false;
-    code = '';
-    description = '';
-    image = '';
-    line = '';
-    purchaseAmount = 0;
-    saleAmount = 0;
-    status = 0;
-    trademark = '';
-    unitMeasurePurchase = 0;
-    unitMeasureSale = 0;
-}
-
-export interface ItemInterface {
+export interface ItemModel {
     id: number;
     code: string;
     description: string;
@@ -24,4 +10,6 @@ export interface ItemInterface {
     unitMeasurePurchase: number;
     unitMeasureSale: number;
     billable: boolean;
+    storable: boolean;
+    inventories?: any;
 }

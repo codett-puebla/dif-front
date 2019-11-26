@@ -29,12 +29,12 @@
 
         <ng-container matColumnDef="idWarehouse">
             <th mat-header-cell *matHeaderCellDef mat-sort-header> Bodega</th>
-            <td mat-cell *matCellDef="let element"> {{element.idWarehouse}} </td>
+            <td mat-cell *matCellDef="let element"> {{element.warehouse.name}} </td>
         </ng-container>
 
         <ng-container matColumnDef="idItem">
             <th mat-header-cell *matHeaderCellDef mat-sort-header> Artículo</th>
-            <td mat-cell *matCellDef="let element"> {{element.idItem}} </td>
+            <td mat-cell *matCellDef="let element"> {{element.item.line + ' - ' + element.item.trademark}} </td>
         </ng-container>
 
         <ng-container matColumnDef="quantity">
