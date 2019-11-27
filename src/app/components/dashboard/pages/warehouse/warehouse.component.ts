@@ -62,7 +62,6 @@ export class WarehouseComponent implements OnInit, AfterViewInit {
                     MessagesUtill.successMessage('Éxito', 'Registro actualizado');
                 },
                 error => {
-                    console.log('Error ----> ', error);
                     Swal.close();
                     MessagesUtill.errorMessage('El servicio no esta disponible');
                 }

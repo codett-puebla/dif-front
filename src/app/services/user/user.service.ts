@@ -1,59 +1,61 @@
 import {Injectable} from '@angular/core';
 import {SERVER, PORT, BASE_PATH} from '../../util/const.util';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
-import {WarehouseModel} from '../../models/warehouse.model';
+import {UserInterfaceModel} from '../../models/user.model';
 import MessagesUtill from '../../util/messages.utill';
 
 @Injectable({
     providedIn: 'root'
 })
-export class WarehouseService {
-    private baseEndpoint = 'warehouse/';
-    private getWarehouseEndpoint = 'active/';
-    private newWarehouseEndpoint = 'new';
+export class UserService {
+
+    private baseEndpoint = 'user/';
+    private getUserEndpoint = 'all/';
+    private newUserEndpoint = 'new';
     private headers = new HttpHeaders();
     private url = SERVER + PORT + BASE_PATH + this.baseEndpoint;
     private data: any;
     private firstLoadService = true;
+
     constructor(
         private _http: HttpClient
     ) {
-      this.headers.append('Content-Type', 'application/json');
-      this.headers.append('Access-Control-Allow-Origin', '*');
+        this.headers.append('Content-Type', 'application/json');
+        this.headers.append('Access-Control-Allow-Origin', '*');
     }
 
-    getAllWarehouse() {
+    getAllUsers() {
         return this._http.get(
-            this.url + this.getWarehouseEndpoint,
+            this.url + this.getUserEndpoint,
             {headers: this.headers}
-            );
+        );
     }
 
-    newWarehouse(data) {
+    newUser(data) {
         return this._http.post(
-            this.url + this.newWarehouseEndpoint,
+            this.url + this.newUserEndpoint,
             data,
         );
     }
 
-    deletedWarehouse(id: number) {
+    deletedUser(id: number) {
         return this._http.delete(this.url + id, {headers: this.headers});
     }
 
-    editWarehouse(data: WarehouseModel) {
+    editUser(data: UserInterfaceModel) {
         return this._http.put(this.url, data,
-            { headers: this.headers });
+            {headers: this.headers});
     }
 
     getData(callback: any, refresh = false) {
         if (this.firstLoadService || refresh) {
-            this.getAllWarehouse().subscribe(
+            this.getAllUsers().subscribe(
                 response => {
                     callback(response);
                     this.firstLoadService = false;
                     this.data = response;
-                } ,
-                error =>  {
+                },
+                error => {
                     MessagesUtill.errorMessage('El servicio no esta disponible en este momento');
                     callback([], true);
                 }

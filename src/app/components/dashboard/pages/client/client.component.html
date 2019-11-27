@@ -78,7 +78,7 @@
             </mat-accordion>
         </div>
     </form>
-    <app-client-data-table [(stateButton)]="panelOpenState"></app-client-data-table>
+    <app-client-data-table [(stateButton)]="panelOpenState" (stateButtonChange)="setStatusOpenState( $event )" (editClientEmitter)="editClient($event)"></app-client-data-table>
     <br>
     <br>
 </div>

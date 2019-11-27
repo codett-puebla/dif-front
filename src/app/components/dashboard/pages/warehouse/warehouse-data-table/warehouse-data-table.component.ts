@@ -6,6 +6,7 @@ import {MatSort} from '@angular/material/sort';
 import {WarehouseService} from '../../../../../services/warehouse/warehouse.service';
 import MessagesUtill from '../../../../../util/messages.utill';
 import {from, Observable} from 'rxjs';
+import Swal from "sweetalert2";
 
 @Component({
     selector: 'app-warehouse-data-table',
@@ -34,6 +35,7 @@ export class WarehouseDataTableComponent implements OnInit, AfterViewInit {
 
     ngOnInit() {
         this.dataSource = new MatTableDataSource();
+        Swal.showLoading();
         this.setDataSource();
     }
 
@@ -73,8 +75,11 @@ export class WarehouseDataTableComponent implements OnInit, AfterViewInit {
         this._warehouse.getData(this.callbackSetDataSource.bind(this), refresh);
     }
 
-    callbackSetDataSource(data: any) {
+    callbackSetDataSource(data: any, error = false) {
         this.dataSource.data = data;
+        if (!error) {
+            Swal.close();
+        }
     }
 
 }

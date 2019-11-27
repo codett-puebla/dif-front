@@ -32,6 +32,7 @@ export class DataTableComponent implements OnInit, AfterViewInit {
 
     ngOnInit() {
         this.dataSource = new MatTableDataSource();
+        Swal.showLoading();
         this.setDataSource();
     }
 
@@ -71,8 +72,11 @@ export class DataTableComponent implements OnInit, AfterViewInit {
         this._itemService.getData(this.callbackSetDataSource.bind(this), refresh);
     }
 
-    callbackSetDataSource(item) {
+    callbackSetDataSource(item, error = false) {
         console.log('DATA ---> ', item);
         this.dataSource.data = item;
+        if (!error) {
+            Swal.close();
+        }
     }
 }

@@ -1,27 +1,9 @@
 import {AfterViewInit, Component, EventEmitter, Input, OnInit, Output, ViewChild} from '@angular/core';
 import {MatPaginator, MatSort, MatTableDataSource} from '@angular/material';
 import {UserInterfaceModel} from '../../../../../models/user.model';
-
-
-const ELEMENT_DATA: UserInterfaceModel[] = [
-      {
-        id: 0,
-        username: 'Alex@algo.com',
-        password: 'hola',
-        status: 1,
-        create_at: '10-10-10 10:10:10',
-      },
-      {
-        id: 1,
-        username: 'Alex@algo.com',
-        password: 'hola',
-        status: 2,
-        create_at: '10-10-10 10:10:10',
-      },
-    ]
-;
-
-
+import {UserService} from '../../../../../services/user/user.service';
+import Swal from "sweetalert2";
+import MessagesUtill from '../../../../../util/messages.utill';
 
 @Component({
   selector: 'app-user-data-table',
@@ -38,11 +20,21 @@ export class UserDataTableComponent implements OnInit, AfterViewInit {
 
   @Input() stateButton: boolean;
   @Output() stateButtonChange = new EventEmitter();
-
-  constructor() { }
+  @Output() editUserEmitter: EventEmitter<any>;
+  constructor(
+      private _user: UserService
+  ) {
+    this.editUserEmitter = new EventEmitter<any>();
+  }
 
   ngOnInit() {
-    this.dataSource = new MatTableDataSource(ELEMENT_DATA);
+    this.dataSource = new MatTableDataSource();
+    this.setDataSource();
+  }
+
+  ngAfterViewInit(): void {
+    this.dataSource.paginator = this.paginator;
+    this.dataSource.sort = this.sort;
   }
 
   applyFilter(filterValue: string) {
@@ -58,18 +50,31 @@ export class UserDataTableComponent implements OnInit, AfterViewInit {
   }
 
   editClient(element: any) {
-
+    this.editUserEmitter.emit(element);
   }
 
   deleteClient(id: any) {
-
+    MessagesUtill.deleteMessage(id, this.callbackDeleted.bind(this));
   }
 
-  ngAfterViewInit(): void {
-    console.log(this.paginator);
-    console.log(this.sort);
-    this.dataSource.paginator = this.paginator;
-    this.dataSource.sort = this.sort;
+  private callbackDeleted(id: number) {
+    this._user.deletedUser(id).subscribe(
+        response => this.setDataSource(true),
+        error => console.log(error)
+    );
+  }
+
+  setDataSource(refresh = false) {
+    Swal.showLoading();
+    this._user.getData(this.callbackSetDataSource.bind(this), refresh);
+  }
+
+  private callbackSetDataSource(data: any, error = false) {
+    console.log('DATA CARNAL :V --> ', data);
+    this.dataSource.data = data;
+    if (!error) {
+      Swal.close();
+    }
   }
 
 }

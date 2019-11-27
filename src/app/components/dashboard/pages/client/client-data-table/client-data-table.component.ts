@@ -3,29 +3,9 @@ import {MatTableDataSource} from '@angular/material/table';
 import {ClientModel} from '../../../../../models/client.model';
 import {MatPaginator} from '@angular/material/paginator';
 import {MatSort} from '@angular/material/sort';
-
-const ELEMENT_DATA: ClientModel[] = [
-        {
-            address: 'asdasdasd',
-            email: 'asasdasd',
-            id: 1,
-            name: 'asdasd',
-            phone: '123123@',
-            rfc: 'asfdasdasd',
-            status: 1,
-            useCFID: 'asdasd',
-        }, {
-            address: 'asdasdasd',
-            email: 'asasdasd',
-            id: 2,
-            name: 'aaaaaa',
-            phone: '123123',
-            rfc: 'asfdasdasd',
-            status: 1,
-            useCFID: 'asdasd',
-        },
-    ]
-;
+import {ClientService} from '../../../../../services/client/client.service';
+import Swal from 'sweetalert2';
+import MessagesUtill from '../../../../../util/messages.utill';
 
 @Component({
     selector: 'app-client-data-table',
@@ -42,12 +22,22 @@ export class ClientDataTableComponent implements OnInit, AfterViewInit {
     @Input() stateButton: boolean;
     @Output() stateButtonChange = new EventEmitter();
 
-    constructor() {
+    @Output() editClientEmitter: EventEmitter<any>;
 
+    constructor(
+        private _client: ClientService
+    ) {
+        this.editClientEmitter = new EventEmitter<any>();
     }
 
     ngOnInit() {
-        this.dataSource = new MatTableDataSource(ELEMENT_DATA);
+        this.dataSource = new MatTableDataSource();
+        this.setDataSource();
+    }
+
+    ngAfterViewInit(): void {
+        this.dataSource.paginator = this.paginator;
+        this.dataSource.sort = this.sort;
     }
 
     applyFilter(filterValue: string) {
@@ -63,15 +53,31 @@ export class ClientDataTableComponent implements OnInit, AfterViewInit {
     }
 
     editClient(element: any) {
-
+        this.editClientEmitter.emit(element);
     }
 
     deleteClient(id: any) {
-
+        MessagesUtill.deleteMessage(id, this.callbackDeleted.bind(this));
     }
 
-    ngAfterViewInit(): void {
-        this.dataSource.paginator = this.paginator;
-        this.dataSource.sort = this.sort;
+    private callbackDeleted(id: number) {
+        this._client.deletedClient(id).subscribe(
+            response => this.setDataSource(true),
+            error => console.log(error)
+        );
+    }
+
+
+    setDataSource(refresh = false) {
+        Swal.showLoading();
+        this._client.getData(this.callbackSetDataSource.bind(this), refresh);
+    }
+
+    private callbackSetDataSource(data: any, error = false) {
+        console.log('DATA CARNAL :V --> ', data);
+        this.dataSource.data = data;
+        if (!error) {
+            Swal.close();
+        }
     }
 }

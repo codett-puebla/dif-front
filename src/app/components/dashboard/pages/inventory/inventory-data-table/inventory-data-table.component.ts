@@ -5,6 +5,7 @@ import {InventoryService} from '../../../../../services/inventory/inventory.serv
 import MessagesUtill from '../../../../../util/messages.utill';
 import {WarehouseService} from '../../../../../services/warehouse/warehouse.service';
 import {ItemService} from '../../../../../services/item/item.service';
+import Swal from "sweetalert2";
 
 @Component({
     selector: 'app-inventory-data-table',
@@ -32,6 +33,7 @@ export class InventoryDataTableComponent implements OnInit, AfterViewInit {
 
     ngOnInit() {
         this.dataSource = new MatTableDataSource();
+        Swal.showLoading();
         this._inventory.getData(this.setDataSource.bind(this));
     }
 
@@ -43,9 +45,12 @@ export class InventoryDataTableComponent implements OnInit, AfterViewInit {
     }
 
 
-    setDataSource(data: any) {
+    setDataSource(data: any, error = false) {
         console.log('DATA --> ', data);
         this.dataSource.data = data;
+        if (!error) {
+            Swal.close();
+        }
     }
 
     applyFilter(filterValue: string) {

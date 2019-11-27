@@ -64,7 +64,7 @@ export class ItemService {
                 } ,
                 error => {
                     MessagesUtill.errorMessage('El servicio no esta disponible en este momento');
-                    callback([]);
+                    callback([], true);
                 }
             );
         } else {
