@@ -80,7 +80,7 @@ export class ClientComponent implements OnInit {
     getAttrMessage(attr: string) {
         const abstractControl = this.form.get(attr);
         return abstractControl.hasError('required') ? '* Requerido' :
-            abstractControl.hasError('minlength') ? 'Minimo de Caracteres: 3' :
+            abstractControl.hasError('minlength') ? 'Minimo de Caracteres: 9' :
                 abstractControl.hasError('maxlength') ? 'Máximo de Caracteres: 30' :
                     '';
     }

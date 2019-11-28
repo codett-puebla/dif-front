@@ -110,6 +110,7 @@ export class EntryDataTableComponent implements OnInit, AfterViewInit {
 
     openDialog(element: any): void {
         element.entryDetails.title = 'Detalle de entrada';
+        element.entryDetails.type = 'entrada';
         const dialogRef = this.dialog.open(TransactionDetailComponent, {
             width: '50%',
             data: element.entryDetails

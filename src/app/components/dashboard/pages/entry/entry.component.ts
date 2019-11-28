@@ -11,6 +11,7 @@ import {map, startWith} from 'rxjs/operators';
 import * as _ from 'lodash';
 import {formatDate} from '@angular/common';
 import Swal from "sweetalert2";
+import {InventoryService} from '../../../../services/inventory/inventory.service';
 
 @Component({
     selector: 'app-entry',
@@ -36,7 +37,8 @@ export class EntryComponent implements OnInit {
     constructor(
         private _entry: EntryService,
         private _warehouse: WarehouseService,
-        private _item: ItemService
+        private _item: ItemService,
+        private _inventory: InventoryService
     ) {
         this.form = new FormGroup(
             {
@@ -67,7 +69,7 @@ export class EntryComponent implements OnInit {
         let data = this.form.value;
         if (!this.editForm) {
             data.id = null;
-            data.idUser = 3;
+            data.idUser = 1;
             data.status = 1;
             data.entryStatus = 1;
             console.log('NEW CLIENT ---> ', data);
@@ -83,6 +85,7 @@ export class EntryComponent implements OnInit {
     }
 
     successRegister(message: string) {
+        this._inventory.updateData();
         this.dataTable.setDataSource(true);
         MessagesUtill.successMessage('Éxito', message);
         this.form.reset();
@@ -98,12 +101,6 @@ export class EntryComponent implements OnInit {
                     '';
     }
 
-    editEntry(event: EntryModel) {
-        this.form.get('name').setValue(event.date);
-        this.panelOpenState = true;
-        this.editForm = true;
-        this.dataEditEntry = event;
-    }
 
     setStatusOpenState(status: boolean) {
         if (!status) {
@@ -134,15 +131,15 @@ export class EntryComponent implements OnInit {
 
     deleteEntryDetail(i: number) {
         // @ts-ignore
-        if (this.form.get('entryDetail').controls.length > 1) {
+        if (this.form.get('entryDetails').controls.length > 1) {
             console.log('eliminando');
-            (this.form.controls.entryDetail as FormArray).removeAt(i);
+            (this.form.controls.entryDetails as FormArray).removeAt(i);
             this.filteredOptions.splice(i, 1);
         }
     }
 
     manageArrayCostControl(index: number) {
-        const arrayControl = this.form.get('entryDetail') as FormArray;
+        const arrayControl = this.form.get('entryDetails') as FormArray;
         // @ts-ignore
         this.filteredOptions[index] = arrayControl.at(index).controls.item.valueChanges
             .pipe(
@@ -174,14 +171,14 @@ export class EntryComponent implements OnInit {
     }
 
     addEntryDetail() {
-        (this.form.controls.entryDetail as FormArray).push(
+        (this.form.controls.entryDetails as FormArray).push(
             new FormGroup({
                 item: new FormControl('',[Validators.required]),
                 quantity: new FormControl('', [Validators.required, Validators.minLength(1)])
             })
         );
         // @ts-ignore
-        this.manageArrayCostControl(this.form.controls.entryDetail.controls.length - 1);
+        this.manageArrayCostControl(this.form.controls.entryDetails.controls.length - 1);
     }
 
 }

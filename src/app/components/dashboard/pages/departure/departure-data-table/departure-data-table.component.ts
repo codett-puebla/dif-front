@@ -3,27 +3,13 @@ import {MatTableDataSource} from '@angular/material/table';
 import {DepartureModel} from '../../../../../models/departure.model';
 import {MatPaginator} from '@angular/material/paginator';
 import {MatSort} from '@angular/material/sort';
-
-const ELEMENT_DATA: DepartureModel[] = [
-    {
-        date: new Date(),
-        folio: '222222',
-        id: 1,
-        idStaff: 1,
-        series: 'V',
-        idWarehouse: 2,
-        status: 1,
-    }, {
-        date: new Date(),
-        folio: '333333',
-        id: 2,
-        idStaff: 1,
-        series: 'X',
-        idWarehouse: 2,
-        status: 1,
-    },
-];
-
+import Swal from "sweetalert2";
+import {TransactionDetailComponent} from '../../../../shared/dialogs/transaction-detail/transaction-detail.component';
+import {UserService} from '../../../../../services/user/user.service';
+import {MatDialog} from '@angular/material';
+import {UserInterfaceModel} from '../../../../../models/user.model';
+import {DeparturesService} from '../../../../../services/departures/departures.service';
+import MessagesUtill from '../../../../../util/messages.utill';
 
 @Component({
     selector: 'app-departure-data-table',
@@ -31,7 +17,7 @@ const ELEMENT_DATA: DepartureModel[] = [
     styleUrls: ['./departure-data-table.component.css']
 })
 export class DepartureDataTableComponent implements OnInit, AfterViewInit {
-    displayedColumns: string[] = ['id', 'series', 'folio', 'date', 'idWarehouse', 'idStaff', 'status', 'actions'];
+    displayedColumns: string[] = ['id', 'series', 'folio', 'date', 'warehouse', 'staff', 'user', 'actions'];
     dataSource: MatTableDataSource<DepartureModel>;
     @ViewChild(MatPaginator, {static: false}) paginator: MatPaginator;
     @ViewChild(MatSort, {static: false}) sort: MatSort;
@@ -39,12 +25,24 @@ export class DepartureDataTableComponent implements OnInit, AfterViewInit {
     @Input() stateButton: boolean;
     @Output() stateButtonChange = new EventEmitter();
 
-    constructor() {
+    private users: UserInterfaceModel[];
 
+    constructor(
+        private _departure: DeparturesService,
+        private _user: UserService,
+        public dialog: MatDialog
+    ) {
+        this._user.getData(this.setUsersCallback.bind(this));
     }
 
     ngOnInit() {
-        this.dataSource = new MatTableDataSource(ELEMENT_DATA);
+        this.dataSource = new MatTableDataSource();
+        this.setDataSource();
+    }
+
+    ngAfterViewInit(): void {
+        this.dataSource.paginator = this.paginator;
+        this.dataSource.sort = this.sort;
     }
 
     applyFilter(filterValue: string) {
@@ -59,16 +57,56 @@ export class DepartureDataTableComponent implements OnInit, AfterViewInit {
         return !this.stateButton ? 'Añadir' : 'Cancelar';
     }
 
-    editDeparture(element: any) {
-
-    }
-
     deleteDeparture(id: any) {
-
+        console.log('ELIMINADO --> ', id);
+        MessagesUtill.deleteMessage(id, this.callbackDeleted.bind(this));
     }
 
-    ngAfterViewInit(): void {
-        this.dataSource.paginator = this.paginator;
-        this.dataSource.sort = this.sort;
+
+    private callbackDeleted(id: number) {
+        this._departure.deletedDeparture(id).subscribe(
+            response => this.setDataSource(true),
+            error => console.log(error)
+        );
+    }
+
+
+    setDataSource(refresh = false) {
+        Swal.showLoading();
+        this._departure.getData(this.callbackSetDataSource.bind(this), refresh);
+    }
+
+    private callbackSetDataSource(data: any, error = false) {
+        console.log('DATA CARNAL :V --> ', data);
+        this.dataSource.data = data;
+        if (!error) {
+            Swal.close();
+        }
+    }
+
+    getNameUser(idUser) {
+        for (let user of this.users) {
+            if (user.id === idUser) {
+                return user.username;
+            }
+        }
+        return idUser;
+    }
+
+    setUsersCallback(users: any) {
+        this.users = users;
+    }
+
+    openDialog(element: any): void {
+        element.departureDetails.title = 'Detalle de salida';
+        element.departureDetails.type = 'salida';
+        const dialogRef = this.dialog.open(TransactionDetailComponent, {
+            width: '50%',
+            data: element.departureDetails
+        });
+
+        dialogRef.afterClosed().subscribe(result => {
+            console.log('The dialog was closed');
+        });
     }
 }

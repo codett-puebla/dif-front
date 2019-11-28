@@ -39,14 +39,20 @@
             <th mat-header-cell *matHeaderCellDef mat-sort-header> Fecha</th>
             <td mat-cell *matCellDef="let element"> {{element.date | date}} </td>
         </ng-container>
-        <ng-container matColumnDef="idWarehouse">
+        <ng-container matColumnDef="warehouse">
             <th mat-header-cell *matHeaderCellDef mat-sort-header> Bodega</th>
-            <td mat-cell *matCellDef="let element"> {{element.idWarehouse}} </td>
+            <td mat-cell *matCellDef="let element"> {{element.warehouse.name}} </td>
         </ng-container>
-        <ng-container matColumnDef="idStaff">
+        <ng-container matColumnDef="staff">
             <th mat-header-cell *matHeaderCellDef mat-sort-header> Personal Responsable</th>
-            <td mat-cell *matCellDef="let element"> {{element.idStaff}} </td>
+            <td mat-cell *matCellDef="let element"> {{getNameUser(element.staff)}} </td>
         </ng-container>
+
+        <ng-container matColumnDef="user">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Usuario </th>
+            <td mat-cell *matCellDef="let element"> {{getNameUser(element.idUser)}} </td>
+        </ng-container>
+
         <ng-container matColumnDef="status">
             <th mat-header-cell *matHeaderCellDef mat-sort-header> Estado</th>
             <td mat-cell *matCellDef="let element"> {{element.status}} </td>
@@ -56,16 +62,17 @@
         <ng-container matColumnDef="actions">
             <th mat-header-cell *matHeaderCellDef> Acciones</th>
             <td mat-cell *matCellDef="let element">
-                <button (click)="editDeparture(element)" type="button" mat-mini-fab class="bg-success mr-1">
-                    <mat-icon>edit</mat-icon>
-                </button>
                 <button (click)="deleteDeparture(element.id)" type="button" mat-mini-fab class="bg-danger">
                     <mat-icon>close</mat-icon>
+                </button>
+
+                <button (click)="openDialog(element)" type="button" mat-mini-fab class="bg-info">
+                    <mat-icon>details</mat-icon>
                 </button>
             </td>
         </ng-container>
         <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
         <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
     </table>
-    <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>
+    <mat-paginator [pageSizeOptions]="[10, 25, 100]"></mat-paginator>
 </div>

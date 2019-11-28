@@ -40,16 +40,20 @@
                     <div class="row justify-content-center">
                         <div class="col">
                             <mat-form-field class="w-100" appearance="outline">
-                                <input type="text" matInput formControlName="idWarehouse">
                                 <mat-label>Bodega</mat-label>
-                                <mat-error>{{getAttrMessage('idWarehouse')}}</mat-error>
+                                <mat-select formControlName="warehouse" (selectionChange)="onChangeItem()">
+                                    <mat-option *ngFor="let warehouse of warehouses" [value]="warehouse">
+                                        {{warehouse.name}}
+                                    </mat-option>
+                                </mat-select>
+                                <mat-error>{{getAttrMessage('warehouse')}}</mat-error>
                             </mat-form-field>
                         </div>
                         <div class="col">
                             <mat-form-field class="w-100" appearance="outline">
-                                <input type="text" matInput formControlName="idStaff">
-                                <mat-label>Personal Encargado</mat-label>
-                                <mat-error>{{getAttrMessage('idStaff')}}</mat-error>
+                                <input type="text" matInput formControlName="staff">
+                                <mat-label>Nombre de Encargado</mat-label>
+                                <mat-error>{{getAttrMessage('staff')}}</mat-error>
                             </mat-form-field>
                         </div>
                     </div>
@@ -58,28 +62,34 @@
                         <mat-card-title>
                             Detalle de salidas
                         </mat-card-title>
-                        <mat-card-content>
-                            <div class="row justify-content-center">
-                                <div class="col">
-                                    <mat-form-field class="w-100" appearance="outline">
-                                        <mat-label>Articulo</mat-label>
-                                        <mat-select>
-                                            <mat-option *ngFor="let item of items" [value]="item">
-                                                {{item}}
-                                            </mat-option>
-                                        </mat-select>
-                                    </mat-form-field>
-                                </div>
-                                <div class="col">
-                                    <mat-form-field class="w-100" appearance="outline">
-                                        <input type="number" matInput>
-                                        <mat-label>Cantidad</mat-label>
-                                    </mat-form-field>
+                        <mat-card-content formArrayName="departureDetails">
+                            <div *ngFor="let departure of form.controls.departureDetails['controls']; let i = index">
+                                <div class="row justify-content-center" [formGroupName]="i.toString()">
+                                    <div class="col">
+                                        <mat-form-field class="w-100" appearance="outline">
+                                            <mat-label>Articulo</mat-label>
+                                            <mat-select formControlName="item">
+                                                <mat-option *ngFor="let item of itemsSelect" [value]="item">
+                                                    {{item.code}}
+                                                </mat-option>
+                                            </mat-select>
+                                        </mat-form-field>
+                                    </div>
+                                    <div class="col">
+                                        <mat-form-field class="w-100" appearance="outline">
+                                            <input type="number" matInput formControlName="quantity">
+                                            <mat-label>Cantidad</mat-label>
+                                        </mat-form-field>
+                                    </div>
+                                    <div class="col">
+                                        <button (click)="deleteEntryDetail(i)" type="button" mat-mini-fab color="warn" title="Eliminar"><i
+                                                class="fa fa-times-circle"></i></button>
+                                    </div>
                                 </div>
                             </div>
                         </mat-card-content>
                         <mat-card-actions align="end">
-                            <button mat-button class="bg-light" type="button">Agregar Salida</button>
+                            <button mat-button class="bg-light" type="button" (click)="addEntryDetail()">Agregar Salida</button>
                         </mat-card-actions>
                     </mat-card>
 

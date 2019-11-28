@@ -12,7 +12,7 @@
         </ng-container>
 
         <ng-container matColumnDef="quantity">
-            <th mat-header-cell *matHeaderCellDef> Cantidad de entrada </th>
+            <th mat-header-cell *matHeaderCellDef> Cantidad de {{dataSource.type}} </th>
             <td mat-cell *matCellDef="let element"> {{element.quantity}} </td>
         </ng-container>
 

@@ -37,6 +37,11 @@
             <td mat-cell *matCellDef="let element"> {{element.item.line + ' - ' + element.item.trademark}} </td>
         </ng-container>
 
+        <ng-container matColumnDef="code">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Código</th>
+            <td mat-cell *matCellDef="let element"> {{element.item.code}} </td>
+        </ng-container>
+
         <ng-container matColumnDef="quantity">
             <th mat-header-cell *matHeaderCellDef mat-sort-header> Cantidad</th>
             <td mat-cell *matCellDef="let element"> {{element.quantity}} </td>

@@ -57,4 +57,13 @@ export class InventoryService {
             callback(this.data);
         }
     }
+
+    updateData() {
+        this.getAllInventory().subscribe(
+            response => {
+                this.data = response;
+            } ,
+            error => console.log(error)
+        );
+    }
 }

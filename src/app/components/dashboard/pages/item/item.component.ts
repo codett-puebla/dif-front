@@ -8,6 +8,7 @@ import MessagesUtill from '../../../../util/messages.utill';
 import Swal from 'sweetalert2';
 import {DataTableComponent} from './data-table/data-table.component';
 import * as _ from 'lodash';
+import {InventoryService} from '../../../../services/inventory/inventory.service';
 
 
 const ITEM_ACTIVE = 1;
@@ -33,7 +34,8 @@ export class ItemComponent implements OnInit {
 
     constructor(
         private _warehouse: WarehouseService,
-        private _item: ItemService
+        private _item: ItemService,
+        private _inventory: InventoryService
     ) {
         this.editForm = false;
         this.form = new FormGroup(
@@ -96,6 +98,7 @@ export class ItemComponent implements OnInit {
                     this.form.reset();
                     this.dataTable.setDataSource(true);
                     Swal.close();
+                    this._inventory.updateData();
                     MessagesUtill.successMessage('Éxito', 'Nuevo registro');
                 },
                 error => {
@@ -115,6 +118,7 @@ export class ItemComponent implements OnInit {
                     this.panelOpenState = false;
                     this.form.reset();
                     Swal.close();
+                    this._inventory.updateData();
                     MessagesUtill.successMessage('Éxito', 'Se actualizo con éxito');
                 },
                 error => MessagesUtill.errorMessage('El servicio no se encuentra disponible')

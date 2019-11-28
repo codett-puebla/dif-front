@@ -16,7 +16,7 @@ import Swal from "sweetalert2";
 export class InventoryDataTableComponent implements OnInit, AfterViewInit {
 
     // tslint:disable-next-line:max-line-length
-    displayedColumns: string[] = ['id', 'item', 'quantity', 'warehouse'];
+    displayedColumns: string[] = ['id', 'item', 'code', 'quantity', 'warehouse'];
     dataSource: MatTableDataSource<InventoryModel>;
     @ViewChild(MatPaginator, {static: false}) paginator: MatPaginator;
     @ViewChild(MatSort, {static: false}) sort: MatSort;
