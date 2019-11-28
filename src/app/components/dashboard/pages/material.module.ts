@@ -44,6 +44,7 @@ import {MatCardModule} from "@angular/material/card";
 import { InventoryComponent } from './inventory/inventory.component';
 import { InventoryDataTableComponent } from './inventory/inventory-data-table/inventory-data-table.component';
 import {TransactionDetailComponent} from '../../shared/dialogs/transaction-detail/transaction-detail.component';
+import { TransactionComponent } from './transaction/transaction.component';
 
 registerLocaleData(localeEs);
 
@@ -64,7 +65,8 @@ registerLocaleData(localeEs);
         DepartureComponent,
         DepartureDataTableComponent,
         InventoryComponent,
-        InventoryDataTableComponent
+        InventoryDataTableComponent,
+        TransactionComponent,
     ],
     exports: [
         DomseguroPipe,

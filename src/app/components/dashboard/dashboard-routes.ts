@@ -6,6 +6,7 @@ import {UserComponent} from './pages/user/user.component';
 import {EntryComponent} from './pages/entry/entry.component';
 import {DepartureComponent} from './pages/departure/departure.component';
 import {InventoryComponent} from './pages/inventory/inventory.component';
+import {TransactionComponent} from './pages/transaction/transaction.component';
 
 export const DASHBOARD_ROUTES: Routes = [
     {path: 'item', component: ItemComponent},
@@ -15,5 +16,6 @@ export const DASHBOARD_ROUTES: Routes = [
     {path: 'departure', component: DepartureComponent},
     {path: 'user', component: UserComponent},
     {path: 'inventory', component: InventoryComponent},
+    {path: 'transaction', component: TransactionComponent},
     {path: '**', pathMatch: 'full', redirectTo: 'budget'}
 ];

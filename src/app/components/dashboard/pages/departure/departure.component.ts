@@ -39,11 +39,11 @@ export class DepartureComponent implements OnInit {
     ) {
         this.form = new FormGroup(
             {
-                series: new FormControl('', [Validators.required, Validators.minLength(3), Validators.maxLength(30)]),
-                folio: new FormControl('', [Validators.required, Validators.minLength(3), Validators.maxLength(30)]),
+                series: new FormControl('', [Validators.required, Validators.minLength(4)]),
+                folio: new FormControl('', [Validators.required, Validators.minLength(4)]),
                 date: new FormControl(formatDate(new Date(),'yyyy/MM/dd','en')),
-                warehouse: new FormControl('', [Validators.required, Validators.minLength(3), Validators.maxLength(30)]),
-                staff: new FormControl('', [Validators.required, Validators.minLength(3), Validators.maxLength(30)]),
+                warehouse: new FormControl('', [Validators.required]),
+                staff: new FormControl('', [Validators.required]),
                 departureDetails: new FormArray(
                     [
                         new FormGroup({

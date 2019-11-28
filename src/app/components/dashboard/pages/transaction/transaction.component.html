@@ -8,15 +8,7 @@
     <div class="row justify-content-end mat-elevation-z0 mt-2">
         <!--  section add-->
         <div class="col-2">
-            <!--            <button (click)="addArea()" type="button" mat-raised-button class="bg-primary text-white">-->
-            <!--<button (click)="openAccordion()" type="button" mat-raised-button class="bg-primary text-white mb-2 mt-2"
-                    [ngClass]="{'bg-danger':stateButton }">
-                <mat-icon *ngIf="!stateButton;else canView">add_circle_outline</mat-icon>
-                <ng-template #canView>
-                    <mat-icon>cancel</mat-icon>
-                </ng-template>
-                <span> {{getAction()}} </span>
-            </button>-->
+
         </div>
     </div>
     <table mat-table [dataSource]="dataSource" class="mat-elevation-z8 w-100" matSort>
@@ -37,6 +29,11 @@
             <td mat-cell *matCellDef="let element"> {{element.item.line + ' - ' + element.item.trademark}} </td>
         </ng-container>
 
+        <ng-container matColumnDef="reason">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Razón</th>
+            <td mat-cell *matCellDef="let element"> {{element.reason}} </td>
+        </ng-container>
+
         <ng-container matColumnDef="code">
             <th mat-header-cell *matHeaderCellDef mat-sort-header> Código</th>
             <td mat-cell *matCellDef="let element"> {{element.item.code}} </td>
@@ -50,5 +47,5 @@
         <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
         <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
     </table>
-    <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>
+    <mat-paginator [pageSizeOptions]="[10, 25, 100]"></mat-paginator>
 </div>
