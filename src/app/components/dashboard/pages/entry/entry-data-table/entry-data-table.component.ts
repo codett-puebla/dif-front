@@ -3,29 +3,13 @@ import {MatTableDataSource} from '@angular/material/table';
 import {MatPaginator} from '@angular/material/paginator';
 import {MatSort} from '@angular/material/sort';
 import {EntryModel} from '../../../../../models/entry.model';
-
-const ELEMENT_DATA: EntryModel[] = [
-        {
-            date: new Date(),
-            folio: '123123',
-            id: 1,
-            idUser: 2,
-            idWarehouse: 2,
-            series: 'V-1123123',
-            status: 1,
-        },
-        {
-            date: new Date(),
-            folio: '1234444',
-            id: 3,
-            idUser: 2,
-            idWarehouse: 2,
-            series: 'X-1123123',
-            status: 1,
-        },
-    ]
-;
-
+import Swal from "sweetalert2";
+import {EntryService} from '../../../../../services/entry/entry.service';
+import MessagesUtill from '../../../../../util/messages.utill';
+import {UserService} from '../../../../../services/user/user.service';
+import {UserInterfaceModel} from '../../../../../models/user.model';
+import {TransactionDetailComponent} from '../../../../shared/dialogs/transaction-detail/transaction-detail.component';
+import {MatDialog} from '@angular/material';
 
 @Component({
     selector: 'app-entry-data-table',
@@ -34,20 +18,36 @@ const ELEMENT_DATA: EntryModel[] = [
 })
 export class EntryDataTableComponent implements OnInit, AfterViewInit {
     // tslint:disable-next-line:max-line-length
-    displayedColumns: string[] = ['id', 'series', 'folio', 'date', 'idWarehouse', 'idUser', 'status', 'actions'];
+    displayedColumns: string[] = ['id', 'series', 'folio', 'date', 'idWarehouse', 'idUser', 'actions'];
     dataSource: MatTableDataSource<EntryModel>;
+    private users: UserInterfaceModel[];
+
     @ViewChild(MatPaginator, {static: false}) paginator: MatPaginator;
     @ViewChild(MatSort, {static: false}) sort: MatSort;
 
     @Input() stateButton: boolean;
     @Output() stateButtonChange = new EventEmitter();
+    @Output() editEntryEmitter: EventEmitter<any>;
 
-    constructor() {
+
+    constructor(
+        private _entry: EntryService,
+        private _user: UserService,
+        public dialog: MatDialog
+    ) {
+        this._user.getData(this.setUsersCallback.bind(this));
+        this.editEntryEmitter = new EventEmitter<any>();
 
     }
 
     ngOnInit() {
-        this.dataSource = new MatTableDataSource(ELEMENT_DATA);
+        this.dataSource = new MatTableDataSource();
+        this.setDataSource();
+    }
+
+    ngAfterViewInit(): void {
+        this.dataSource.paginator = this.paginator;
+        this.dataSource.sort = this.sort;
     }
 
     applyFilter(filterValue: string) {
@@ -63,15 +63,60 @@ export class EntryDataTableComponent implements OnInit, AfterViewInit {
     }
 
     editEntry(element: any) {
-
+        this.editEntryEmitter.emit(element);
     }
 
     deleteEntry(id: any) {
-
+        MessagesUtill.deleteMessage(id, this.callbackDeleted.bind(this));
     }
 
-    ngAfterViewInit(): void {
-        this.dataSource.paginator = this.paginator;
-        this.dataSource.sort = this.sort;
+    detailEntry(element: any) {
+        console.log('DETALLE --> ', element);
+    }
+
+    private callbackDeleted(id: number) {
+        this._entry.deletedEntry(id).subscribe(
+            response => this.setDataSource(true),
+            error => console.log(error)
+        );
+    }
+
+
+    setDataSource(refresh = false) {
+        Swal.showLoading();
+        this._entry.getData(this.callbackSetDataSource.bind(this), refresh);
+    }
+
+    private callbackSetDataSource(data: any, error = false) {
+        console.log('DATA CARNAL :V --> ', data);
+        this.dataSource.data = data;
+        if (!error) {
+            Swal.close();
+        }
+    }
+
+    getNameUser(idUser) {
+        for (let user of this.users) {
+            if (user.id === idUser) {
+                return user.username;
+            }
+        }
+        return idUser;
+    }
+
+    setUsersCallback(users: any) {
+        this.users = users;
+    }
+
+    openDialog(element: any): void {
+        element.entryDetails.title = 'Detalle de entrada';
+        const dialogRef = this.dialog.open(TransactionDetailComponent, {
+            width: '50%',
+            data: element.entryDetails
+        });
+
+        dialogRef.afterClosed().subscribe(result => {
+            console.log('The dialog was closed');
+        });
     }
 }

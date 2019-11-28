@@ -6,7 +6,7 @@ import {
     MatDatepickerModule,
     MatDialogModule,
     MatDividerModule,
-    MatExpansionModule,
+    MatExpansionModule, MatFormField,
     MatFormFieldModule,
     MatIconModule,
     MatInputModule,
@@ -43,6 +43,7 @@ import { DepartureDataTableComponent } from './departure/departure-data-table/de
 import {MatCardModule} from "@angular/material/card";
 import { InventoryComponent } from './inventory/inventory.component';
 import { InventoryDataTableComponent } from './inventory/inventory-data-table/inventory-data-table.component';
+import {TransactionDetailComponent} from '../../shared/dialogs/transaction-detail/transaction-detail.component';
 
 registerLocaleData(localeEs);
 
@@ -67,6 +68,7 @@ registerLocaleData(localeEs);
     ],
     exports: [
         DomseguroPipe,
+        MatFormField
     ],
     imports: [
         MatAutocompleteModule,
@@ -96,7 +98,9 @@ registerLocaleData(localeEs);
         MatSortModule,
         MatCardModule,
     ],
-    entryComponents: [],
+    entryComponents: [
+        TransactionDetailComponent
+    ],
     providers: [
         MatNativeDateModule,
         {provide: MAT_DATE_LOCALE, useValue: 'es-ES'},

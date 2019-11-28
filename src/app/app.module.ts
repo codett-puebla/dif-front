@@ -20,6 +20,8 @@ import {MaterialModule} from './components/dashboard/pages/material.module';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {ContextMenuModule} from 'ngx-contextmenu';
 import {NotFoundComponent} from './components/shared/not-found/not-found.component';
+import { TransactionDetailComponent } from './components/shared/dialogs/transaction-detail/transaction-detail.component';
+import {MatTableModule} from '@angular/material';
 
 
 @NgModule({
@@ -31,6 +33,7 @@ import {NotFoundComponent} from './components/shared/not-found/not-found.compone
         NavBarComponent,
         DashboardComponent,
         NotFoundComponent,
+        TransactionDetailComponent,
     ],
     imports: [
         BrowserAnimationsModule,
@@ -43,6 +46,7 @@ import {NotFoundComponent} from './components/shared/not-found/not-found.compone
         ContextMenuModule.forRoot({
             useBootstrap4: true
         }),
+        MatTableModule,
     ],
     providers: [],
     exports: [],

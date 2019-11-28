@@ -10,16 +10,8 @@ export class UserRegisterModel {
 
 }
 
-export class UserModelLogged {
-  id: number;
-  username: string;
-  name: string;
-  user_type: number;
-  create_time: string;
-}
-
 export interface UserInterfaceModel {
-  id: number;
+  id?: number;
   username: string;
   password: string;
   status: number;

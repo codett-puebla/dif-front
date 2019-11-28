@@ -9,14 +9,6 @@ import Swal from 'sweetalert2';
 import MessagesUtill from '../../../../util/messages.utill';
 import {UserService} from '../../../../services/user/user.service';
 
-
-// export class MyErrorStateMatcher implements ErrorStateMatcher {
-//     isErrorState(control: FormControl | null, form: FormGroupDirective | NgForm | null): boolean {
-//         const isSubmitted = form && form.submitted;
-//         return !!(control && control.invalid && (control.dirty || control.touched || isSubmitted));
-//     }
-// }
-
 @Component({
     selector: 'app-user',
     templateUrl: './user.component.html',
@@ -60,11 +52,13 @@ export class UserComponent implements OnInit {
     submit() {
         Swal.showLoading();
         let data = {
-            username: this.form.value.email,
-            password: this.form.value.password,
-            create_at: '2015-10-01',
-            status: 1
+            id: null,
+            username : this.form.value.email,
+            password : this.form.value.password,
+            create_at : '2015-10-01',
+            status : 1
         };
+
         if (this.editForm) {
             data.id = this.dataEditUser.id;
             console.log('EDIT ---> ', data);
