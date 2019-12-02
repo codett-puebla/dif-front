@@ -30,6 +30,8 @@ export class ItemComponent implements OnInit {
     @ViewChild(DataTableComponent, { static: false })
     dataTable: DataTableComponent;
     dataEditForm: ItemModel;
+    tittle = 'Artículos';
+    icon = 'fa-money';
 
 
     constructor(

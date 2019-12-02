@@ -15,6 +15,8 @@ export class TransactionComponent implements OnInit {
   dataSource: MatTableDataSource<InventoryModel>;
   @ViewChild(MatPaginator, {static: false}) paginator: MatPaginator;
   @ViewChild(MatSort, {static: false}) sort: MatSort;
+  tittle = 'Historial';
+  icon = 'fa-history';
 
   constructor(
       private _transaction: TransactionService
@@ -34,4 +36,7 @@ export class TransactionComponent implements OnInit {
     }
   }
 
+  applyFilter(filterValue: string) {
+    this.dataSource.filter = filterValue.trim().toLowerCase();
+  }
 }

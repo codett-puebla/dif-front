@@ -11,6 +11,7 @@ import MessagesUtill from '../../../../util/messages.utill';
 import * as _ from 'lodash';
 import Swal from "sweetalert2";
 import {formatDate} from '@angular/common';
+import {TransactionService} from '../../../../services/transaction/transaction.service';
 
 @Component({
     selector: 'app-departure',
@@ -18,7 +19,7 @@ import {formatDate} from '@angular/common';
     styleUrls: ['./departure.component.css']
 })
 export class DepartureComponent implements OnInit {
-    panelOpenState = true;
+    panelOpenState = false;
     form: FormGroup;
     items: any;
     itemsSelect: any;
@@ -30,12 +31,15 @@ export class DepartureComponent implements OnInit {
     warehouses: any[] = [];
     filteredOptions: Observable<string[]>[] = [];
     entryTotal = 0;
+    tittle = 'Salidas';
+    icon = 'fa-arrow-circle-o-left';
 
     constructor(
         private _departure: DeparturesService,
         private _warehouse: WarehouseService,
         private _item: ItemService,
-        private _inventory: InventoryService
+        private _inventory: InventoryService,
+        private _transaction: TransactionService
     ) {
         this.form = new FormGroup(
             {
@@ -92,6 +96,7 @@ export class DepartureComponent implements OnInit {
 
     successRegister(message: string) {
         this._inventory.updateData();
+        this._transaction.updateData();
         this.dataTable.setDataSource(true);
         MessagesUtill.successMessage('Éxito', message);
         this.form.reset();

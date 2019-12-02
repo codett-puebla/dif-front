@@ -46,4 +46,13 @@ export class TransactionService {
             callback(this.data);
         }
     }
+
+    updateData() {
+        this.getAllTransctions().subscribe(
+            response => {
+                this.data = response;
+            } ,
+            error => console.log(error)
+        );
+    }
 }

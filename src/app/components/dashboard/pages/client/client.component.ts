@@ -18,6 +18,8 @@ export class ClientComponent implements OnInit {
     dataEditClient: any;
     @ViewChild(ClientDataTableComponent, {static: false})
     dataTable: ClientDataTableComponent;
+    tittle = 'Clientes';
+    icon = 'fa-users';
 
     constructor(
         private _client: ClientService

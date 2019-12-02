@@ -24,6 +24,8 @@ export class WarehouseComponent implements OnInit, AfterViewInit {
     editForm = false;
     newWarehouse = false;
     dataEditWarehouse: WarehouseModel;
+    tittle = 'Bodegas';
+    icon = 'fa-home';
 
     constructor(
         private _warehouse: WarehouseService

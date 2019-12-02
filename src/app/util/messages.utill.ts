@@ -46,4 +46,14 @@ export default class MessagesUtill {
             }
         });
     }
+
+    static getMessageError(code: number): string {
+        let message = '';
+
+        switch (code) {
+            case 400: message = 'El servicio no esta disponible'; break;
+            case 500: message = 'El servicio no esta disponible'; break;
+        }
+        return '';
+    }
 }

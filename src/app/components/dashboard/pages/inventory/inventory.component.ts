@@ -20,6 +20,8 @@ export class InventoryComponent implements OnInit {
     datatable: InventoryDataTableComponent;
     warehouses: any[] = [];
     items: any[] = [];
+    tittle = 'Inventario';
+    icon = 'fa-bar-chart';
 
     constructor(
         // private _warehouse: WarehouseService,

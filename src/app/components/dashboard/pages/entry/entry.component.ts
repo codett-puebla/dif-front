@@ -12,6 +12,7 @@ import * as _ from 'lodash';
 import {formatDate} from '@angular/common';
 import Swal from "sweetalert2";
 import {InventoryService} from '../../../../services/inventory/inventory.service';
+import {TransactionService} from '../../../../services/transaction/transaction.service';
 
 @Component({
     selector: 'app-entry',
@@ -32,13 +33,15 @@ export class EntryComponent implements OnInit {
     warehouses: any[] = [];
     filteredOptions: Observable<string[]>[] = [];
     entryTotal = 0;
-
+    tittle = 'Entradas';
+    icon = 'fa-arrow-circle-o-right';
 
     constructor(
         private _entry: EntryService,
         private _warehouse: WarehouseService,
         private _item: ItemService,
-        private _inventory: InventoryService
+        private _inventory: InventoryService,
+        private _transaction: TransactionService
     ) {
         this.form = new FormGroup(
             {
@@ -86,6 +89,7 @@ export class EntryComponent implements OnInit {
 
     successRegister(message: string) {
         this._inventory.updateData();
+        this._transaction.updateData();
         this.dataTable.setDataSource(true);
         MessagesUtill.successMessage('Éxito', message);
         this.form.reset();

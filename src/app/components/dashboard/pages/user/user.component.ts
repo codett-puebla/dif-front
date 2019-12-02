@@ -26,7 +26,8 @@ export class UserComponent implements OnInit {
     dataEditUser: any;
     @ViewChild(UserDataTableComponent, {static: false})
     dataTable: UserDataTableComponent;
-
+    tittle = 'Usuarios';
+    icon = 'fa-user';
 
     // matcher = new MyErrorStateMatcher();
 

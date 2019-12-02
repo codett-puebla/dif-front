@@ -45,6 +45,7 @@ import { InventoryComponent } from './inventory/inventory.component';
 import { InventoryDataTableComponent } from './inventory/inventory-data-table/inventory-data-table.component';
 import {TransactionDetailComponent} from '../../shared/dialogs/transaction-detail/transaction-detail.component';
 import { TransactionComponent } from './transaction/transaction.component';
+import { TitleComponent } from '../../shared/title/title.component';
 
 registerLocaleData(localeEs);
 
@@ -67,10 +68,12 @@ registerLocaleData(localeEs);
         InventoryComponent,
         InventoryDataTableComponent,
         TransactionComponent,
+        TitleComponent,
     ],
     exports: [
         DomseguroPipe,
-        MatFormField
+        MatFormField,
+        TitleComponent,
     ],
     imports: [
         MatAutocompleteModule,

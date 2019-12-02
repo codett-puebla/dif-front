@@ -44,7 +44,7 @@ export class LoginComponent implements OnInit {
       response => {
         Swal.close();
         this.saveDataUser(response['user']);
-        this._router.navigateByUrl('/dashboard');
+        this._router.navigateByUrl('/dashboard/index');
         this._auth.setLogged(true);
       },
       error => {

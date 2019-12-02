@@ -22,6 +22,7 @@ import {ContextMenuModule} from 'ngx-contextmenu';
 import {NotFoundComponent} from './components/shared/not-found/not-found.component';
 import { TransactionDetailComponent } from './components/shared/dialogs/transaction-detail/transaction-detail.component';
 import {MatTableModule} from '@angular/material';
+import { IndexComponent } from './components/shared/index/index.component';
 
 
 @NgModule({
@@ -34,6 +35,7 @@ import {MatTableModule} from '@angular/material';
         DashboardComponent,
         NotFoundComponent,
         TransactionDetailComponent,
+        IndexComponent,
     ],
     imports: [
         BrowserAnimationsModule,
@@ -49,7 +51,8 @@ import {MatTableModule} from '@angular/material';
         MatTableModule,
     ],
     providers: [],
-    exports: [],
+    exports: [
+    ],
     bootstrap: [AppComponent]
 })
 export class AppModule {

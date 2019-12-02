@@ -1,4 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
+import {MODULES} from '../../../util/const.util';
 
 @Component({
   selector: 'app-side-bar',
@@ -8,6 +9,8 @@ import { Component, OnInit, Input } from '@angular/core';
 export class SideBarComponent implements OnInit {
 
   @Input() toggle;
+  modulos = MODULES;
+
   constructor() { }
 
   ngOnInit() {

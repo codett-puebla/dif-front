@@ -7,8 +7,10 @@ import {EntryComponent} from './pages/entry/entry.component';
 import {DepartureComponent} from './pages/departure/departure.component';
 import {InventoryComponent} from './pages/inventory/inventory.component';
 import {TransactionComponent} from './pages/transaction/transaction.component';
+import {IndexComponent} from '../shared/index/index.component';
 
 export const DASHBOARD_ROUTES: Routes = [
+    {path: 'index', component: IndexComponent},
     {path: 'item', component: ItemComponent},
     {path: 'clients', component: ClientComponent},
     {path: 'warehouse', component: WarehouseComponent},

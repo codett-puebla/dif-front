@@ -1,0 +1,11 @@
+<app-title [title]="title" [icon]="icon"></app-title>
+<div class="row text-center pad-top">
+    <div class="col-md-3" *ngFor="let modulo of modulos">
+        <div class="div-square">
+            <a [routerLink]="['/dashboard',modulo.route]">
+                <i [class]="modulo.icon"></i>
+                <h4 class="mt-2">{{modulo.name}}</h4>
+            </a>
+        </div>
+    </div>
+</div>
