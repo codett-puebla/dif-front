@@ -5,89 +5,78 @@ import {NgForm} from '@angular/forms';
 import {UserModel} from '../../models/user.model';
 
 import Swal from 'sweetalert2';
+import {UserService} from '../../services/user/user.service';
 
 @Component({
-  selector: 'app-login',
-  templateUrl: './login.component.html',
-  styleUrls: ['./login.component.css']
+    selector: 'app-login',
+    templateUrl: './login.component.html',
+    styleUrls: ['./login.component.css']
 })
 export class LoginComponent implements OnInit {
 
-  user: UserModel = new UserModel();
-  private requestInProcess = false;
+    user: UserModel = new UserModel();
+    private requestInProcess = false;
 
-  constructor(
-    private _auth: AuthService,
-    private _router: Router
-  ) {
+    constructor(
+        private _auth: AuthService,
+        private _router: Router,
+        private _user: UserService
+    ) {
 
-  }
-
-  ngOnInit() {
-    if (this._auth.checkClosedSession()) {
-      this._auth.restartTokenMasterlogin();
-    }
-  }
-
-  login(form: NgForm) {
-    if (this.validateForm(form) || !this.isLoggedMasterLogin()) {
-      return;
     }
 
-    Swal.fire({
-      allowOutsideClick: false,
-      type: 'info',
-      text: 'Iniciando sesión, espere por favor...'
-    });
-    Swal.showLoading();
-    this._auth.login(this.user).subscribe(
-      response => {
-        Swal.close();
-        this.saveDataUser(response['user']);
-        this._router.navigateByUrl('/dashboard/index');
-        this._auth.setLogged(true);
-      },
-      error => {
-        Swal.close();
-        console.log(error);
-        let message = '';
-        this._auth.setLogged(false);
-        if (error.error.code == 401 || error.status == 404) {
-          message = 'Revisa tu correo o contraseña, alguno es incorrecto';
-        } else {
-          message = 'Ocurrio un error desconocido, intenta mas tarde';
+    ngOnInit() {
+    }
+
+    login(form: NgForm) {
+        if (this.validateForm(form)) {
+            return;
         }
+
         Swal.fire({
-          type: 'error',
-          title: 'Error en el inicio de sesión',
-          text: message
+            allowOutsideClick: false,
+            type: 'info',
+            text: 'Iniciando sesión, espere por favor...'
         });
-      }
-    );
+        Swal.showLoading();
+        this._auth.login(this.user).subscribe(
+            response => {
+                this._auth.setLogged(true);
+                this._auth.setToken(response);
 
-  }
+                this._user.getUserForEmail(this.user.username, response).subscribe(
+                    response => {
+                        this._auth.setUserLogged(response);
+                        this._router.navigateByUrl('/dashboard/index');
+                        Swal.close();
+                    },
+                    error => {
+                        console.log('Error get user', error);
+                    }
+                );
+            },
+            error => {
+                Swal.close();
+                console.log('Error111 --> ', error);
+                this._auth.setLogged(false);
+                Swal.fire({
+                    type: 'error',
+                    title: 'Error en el inicio de sesión',
+                    text: 'El usuario o la contraseña son incorrectos'
+                });
+            }
+        );
 
-  validateForm(form: NgForm): boolean {
-    return form.invalid;
-  }
-
-  saveDataUser(user) {
-    localStorage.setItem('username', user.email);
-    localStorage.setItem('name', user.name);
-    localStorage.setItem('user_type', user.user_type);
-    localStorage.setItem('create_time', user.create_time);
-  }
-
-  isLoggedMasterLogin(): boolean {
-    console.log('status --->', this._auth.checkStatusLoggedMaterlogin());
-    if (!this._auth.checkStatusLoggedMaterlogin()) {
-      Swal.fire({
-        type: 'error',
-        title: 'Error en el inicio de sesión',
-        text: 'Ocurrio un error en los servidores. Intente mas tarde'
-      });
     }
 
-    return this._auth.checkStatusLoggedMaterlogin();
-  }
+    validateForm(form: NgForm): boolean {
+        return form.invalid;
+    }
+
+    saveDataUser(user) {
+        localStorage.setItem('username', user.email);
+        localStorage.setItem('name', user.name);
+        localStorage.setItem('user_type', user.user_type);
+        localStorage.setItem('create_time', user.create_time);
+    }
 }

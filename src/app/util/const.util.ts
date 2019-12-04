@@ -9,38 +9,40 @@ export  const BASE_PATH = '/';
 // export  const PORT = ':8080';
 // export  const BASE_PATH = '/DIFAPI/';
 
+export const ADMIN = 2;
 
+export const USER = 1;
 
 export  const MODULES = [
     {
-        name: 'Usuarios', icon: 'fa fa-user', route: 'user'
+        name: 'Usuarios', icon: 'fa fa-user', route: 'user', permission: 2
     },
 
     {
-        name: 'Clientes', icon: 'fa fa-users', route: 'clients'
+        name: 'Beneficiarios', icon: 'fa fa-users', route: 'clients', permission: 2
     },
 
     {
-        name: 'Artículos', icon: 'fa fa-money', route: 'item'
+        name: 'Artículos', icon: 'fa fa-money', route: 'item', permission: 2
     },
 
     {
-        name: 'Bodegas', icon: 'fa fa-home', route: 'warehouse'
+        name: 'Bodegas', icon: 'fa fa-home', route: 'warehouse', permission: 2
     },
 
     {
-        name: 'Inventario', icon: 'fa fa-bar-chart', route: 'inventory'
+        name: 'Inventario', icon: 'fa fa-bar-chart', route: 'inventory', permission: 1
     },
 
     {
-        name: 'Historial', icon: 'fa fa-history', route: 'transaction'
+        name: 'Historial', icon: 'fa fa-history', route: 'transaction', permission: 1
     },
 
     {
-        name: 'Entradas', icon: 'fa fa-arrow-circle-o-right', route: 'entry'
+        name: 'Entradas', icon: 'fa fa-arrow-circle-o-right', route: 'entry', permission: 1
     },
 
     {
-        name: 'Salidas', icon: 'fa fa-arrow-circle-o-left', route: 'departure'
+        name: 'Salidas', icon: 'fa fa-arrow-circle-o-left', route: 'departure', permission: 1
     },
 ];

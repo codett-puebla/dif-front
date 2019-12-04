@@ -9,19 +9,23 @@ import MessagesUtill from '../../util/messages.utill';
 })
 
 export class InventoryService {
-    private headers = new HttpHeaders();
+    private headers;
     private baseEndpoint = 'inventory/';
     private getAllInventoryEndpoint = 'active/';
     private newItemEndpoint = 'new/';
     private url = SERVER + PORT + BASE_PATH + this.baseEndpoint;
     private firstLoadService = true;
     private data;
+    private token = localStorage.getItem('token');
 
     constructor(
         private _http: HttpClient
     ) {
-        this.headers.append('Content-Type', 'application/json');
-        this.headers.append('Access-Control-Allow-Origin', '*');
+        this.headers = {
+            'Content-Type': 'application/json',
+            'Access-Control-Allow-Origin': '*',
+            'Authorization': this.token,
+        };
     }
 
     getAllInventory() {
@@ -46,8 +50,8 @@ export class InventoryService {
                     this.firstLoadService = false;
                     this.data = response;
                     callback(this.data);
-                } ,
-                error =>  {
+                },
+                error => {
                     MessagesUtill.errorMessage('El servicio no esta disponible en este momento');
                     callback([], true);
                 }
@@ -62,7 +66,7 @@ export class InventoryService {
         this.getAllInventory().subscribe(
             response => {
                 this.data = response;
-            } ,
+            },
             error => console.log(error)
         );
     }

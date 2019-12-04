@@ -1,5 +1,5 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
-import {FormArray, FormControl, FormGroup, NgForm, Validators} from '@angular/forms';
+import {AbstractControl, AsyncValidatorFn, FormArray, FormControl, FormGroup, NgForm, Validators} from '@angular/forms';
 import {EntryService} from '../../../../services/entry/entry.service';
 import {WarehouseService} from '../../../../services/warehouse/warehouse.service';
 import {EntryDataTableComponent} from './entry-data-table/entry-data-table.component';
@@ -7,7 +7,7 @@ import MessagesUtill from '../../../../util/messages.utill';
 import {ItemService} from '../../../../services/item/item.service';
 import {EntryModel} from '../../../../models/entry.model';
 import {Observable} from 'rxjs';
-import {map, startWith} from 'rxjs/operators';
+import {debounceTime, map, startWith} from 'rxjs/operators';
 import * as _ from 'lodash';
 import {formatDate} from '@angular/common';
 import Swal from "sweetalert2";
@@ -46,7 +46,7 @@ export class EntryComponent implements OnInit {
         this.form = new FormGroup(
             {
                 series: new FormControl('', [Validators.required, Validators.minLength(3), Validators.maxLength(30)]),
-                folio: new FormControl('', [Validators.required, Validators.minLength(3), Validators.maxLength(30)]),
+                folio: new FormControl('', [Validators.required, Validators.minLength(3), Validators.maxLength(30)], this.validateFolio().bind(this)),
                 date: new FormControl(formatDate(new Date(),'yyyy/MM/dd','en')),
                 warehouse: new FormControl('', [Validators.required, Validators.minLength(3), Validators.maxLength(30)]),
                 entryDetails: new FormArray(
@@ -102,6 +102,7 @@ export class EntryComponent implements OnInit {
         return abstractControl.hasError('required') ? '* Requerido' :
             abstractControl.hasError('minlength') ? 'Minimo de Caracteres: 3' :
                 abstractControl.hasError('maxlength') ? 'Máximo de Caracteres: 30' :
+                abstractControl.hasError('isFolioExists') ? 'Este folio ya esta registrado' :
                     '';
     }
 
@@ -185,4 +186,19 @@ export class EntryComponent implements OnInit {
         this.manageArrayCostControl(this.form.controls.entryDetails.controls.length - 1);
     }
 
+    validateFolio(): AsyncValidatorFn {
+        return (control: AbstractControl): Observable<{ [key: string]: any } | null> => {
+            return this._entry.verifyFolio((control.value as string).trim())
+                .pipe(
+                    debounceTime(600),
+                    map((exist: string) => {
+                        console.log('PROIMESA  --_> ', exist);
+                        if (!_.isEmpty(exist)) {
+                            return {isFolioExists: true};
+                        }
+                        return null;
+                    })
+                );
+        };
+    }
 }

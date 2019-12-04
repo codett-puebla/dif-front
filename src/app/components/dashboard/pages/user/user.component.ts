@@ -1,5 +1,5 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
-import {FormControl, FormGroup, FormGroupDirective, NgForm, Validators} from '@angular/forms';
+import {AbstractControl, AsyncValidatorFn, FormControl, FormGroup, FormGroupDirective, NgForm, Validators} from '@angular/forms';
 import {UserInterfaceModel, UserRegisterModel} from '../../../../models/user.model';
 import {ErrorStateMatcher} from '@angular/material/core';
 import {ClientModel} from '../../../../models/client.model';
@@ -8,6 +8,9 @@ import {UserDataTableComponent} from './user-data-table/user-data-table.componen
 import Swal from 'sweetalert2';
 import MessagesUtill from '../../../../util/messages.utill';
 import {UserService} from '../../../../services/user/user.service';
+import {Observable} from 'rxjs';
+import {debounceTime, map} from 'rxjs/operators';
+import * as _ from 'lodash';
 
 @Component({
     selector: 'app-user',
@@ -38,10 +41,10 @@ export class UserComponent implements OnInit {
 
         this.form = new FormGroup(
             {
-                email: new FormControl('', [Validators.required, Validators.maxLength(30), Validators.email]),
+                email: new FormControl('', [Validators.required, Validators.email], this.validateEmail().bind(this)),
                 password: new FormControl('', [Validators.required, Validators.minLength(6), Validators.maxLength(20)]),
                 confirmPassword: new FormControl('', [Validators.required, Validators.minLength(6), Validators.maxLength(20)]),
-                typeUser: new FormControl('', [Validators.required]),
+                status: new FormControl('', [Validators.required]),
             },
             this.ValidatePasswords('password', 'confirmPassword')
         );
@@ -54,10 +57,9 @@ export class UserComponent implements OnInit {
         Swal.showLoading();
         let data = {
             id: null,
-            username : this.form.value.email,
-            password : this.form.value.password,
-            create_at : '2015-10-01',
-            status : 1
+            username: this.form.value.email,
+            password: this.form.value.password,
+            status: this.form.value.status.value,
         };
 
         if (this.editForm) {
@@ -80,6 +82,7 @@ export class UserComponent implements OnInit {
                 },
                 error => {
                     Swal.close();
+                    console.log(error);
                     MessagesUtill.errorMessage('El servicio no esta disponible');
                 }
             );
@@ -101,14 +104,15 @@ export class UserComponent implements OnInit {
                 abstractControl.hasError('maxlength') ? 'Máximo de Caracteres: 20' :
                     abstractControl.hasError('email') ? 'Tiene que ingresar un email valido' :
                         abstractControl.hasError('isEquals') ? 'La contraseña no es igual' :
-                            '';
+                            abstractControl.hasError('isEmailExists') ? 'Esta dirección de correo ya esta registrada' :
+                                '';
     }
 
     editUser(event: UserInterfaceModel) {
         this.form.get('email').setValue(event.username);
         this.form.get('password').setValue(event.password);
         this.form.get('confirmPassword').setValue(event.password);
-        this.form.get('typeUser').setValue(event.status);
+        this.form.get('status').setValue(event.status);
         this.panelOpenState = true;
         this.editForm = true;
         this.dataEditUser = event;
@@ -134,6 +138,22 @@ export class UserComponent implements OnInit {
                     controlB.setErrors({isEquals: true});
                 }
             }
+        };
+    }
+
+    validateEmail(): AsyncValidatorFn {
+        return (control: AbstractControl): Observable<{ [key: string]: any } | null> => {
+            return this._user.verifyEmail((control.value as string).trim())
+                .pipe(
+                    debounceTime(600),
+                    map((exist: string) => {
+                        console.log('PROIMESA  --_> ', exist);
+                        if (!_.isEmpty(exist)) {
+                            return {isEmailExists: true};
+                        }
+                        return null;
+                    })
+                );
         };
     }
 }

@@ -11,15 +11,20 @@ export class WarehouseService {
     private baseEndpoint = 'warehouse/';
     private getWarehouseEndpoint = 'active/';
     private newWarehouseEndpoint = 'new';
-    private headers = new HttpHeaders();
+    private headers;
     private url = SERVER + PORT + BASE_PATH + this.baseEndpoint;
     private data: any;
     private firstLoadService = true;
+    private token = localStorage.getItem('token');
+
     constructor(
         private _http: HttpClient
     ) {
-      this.headers.append('Content-Type', 'application/json');
-      this.headers.append('Access-Control-Allow-Origin', '*');
+        this.headers = {
+            'Content-Type': 'application/json',
+            'Access-Control-Allow-Origin': '*',
+            'Authorization': this.token,
+        };
     }
 
     getAllWarehouse() {

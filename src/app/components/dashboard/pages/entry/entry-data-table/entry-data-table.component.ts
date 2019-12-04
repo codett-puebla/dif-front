@@ -10,6 +10,8 @@ import {UserService} from '../../../../../services/user/user.service';
 import {UserInterfaceModel} from '../../../../../models/user.model';
 import {TransactionDetailComponent} from '../../../../shared/dialogs/transaction-detail/transaction-detail.component';
 import {MatDialog} from '@angular/material';
+import PermissionUtil from '../../../../../util/permission.util';
+import {ADMIN} from '../../../../../util/const.util';
 
 @Component({
     selector: 'app-entry-data-table',
@@ -119,5 +121,8 @@ export class EntryDataTableComponent implements OnInit, AfterViewInit {
         dialogRef.afterClosed().subscribe(result => {
             console.log('The dialog was closed');
         });
+    }
+    getPermission(): boolean {
+        return PermissionUtil.getPermission(ADMIN);
     }
 }

@@ -7,10 +7,10 @@ import {Pipe, PipeTransform} from '@angular/core';
 export class UserPipe implements PipeTransform {
 
     transform(value: number): string {
-        let userType = 'Administrador';
+        let userType = 'Usuario';
 
         if (value > 1) {
-            userType = 'Usuario';
+            userType = 'Administrador';
         }
 
         return userType;

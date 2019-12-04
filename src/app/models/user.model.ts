@@ -1,6 +1,6 @@
 export class UserModel {
-  username = 'alex@gmail.com';
-  password = 'secret';
+  username = '';
+  password = '';
 }
 
 export class UserRegisterModel {

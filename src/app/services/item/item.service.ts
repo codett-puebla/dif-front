@@ -11,16 +11,20 @@ import MessagesUtill from '../../util/messages.utill';
 
 export class ItemService {
     private data;
-    private headers = new HttpHeaders();
+    private headers;
     private baseEndpoint = 'item/';
     private getAllItemsEndpoint = 'active/';
     private newItemEndpoint = 'new/';
     private url = SERVER + PORT + BASE_PATH + this.baseEndpoint;
     private firstLoadService = true;
+    private token = localStorage.getItem('token');
 
     constructor(private _http: HttpClient) {
-        this.headers.append('Content-Type', 'application/json');
-        this.headers.append('Access-Control-Allow-Origin', '*');
+        this.headers = {
+            'Content-Type': 'application/json',
+            'Access-Control-Allow-Origin': '*',
+            'Authorization': this.token,
+        };
     }
 
     getAllItems() {
@@ -61,7 +65,7 @@ export class ItemService {
                     callback(response);
                     this.firstLoadService = false;
                     this.data = response;
-                } ,
+                },
                 error => {
                     MessagesUtill.errorMessage('El servicio no esta disponible en este momento');
                     callback([], true);

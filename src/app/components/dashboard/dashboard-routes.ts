@@ -8,16 +8,17 @@ import {DepartureComponent} from './pages/departure/departure.component';
 import {InventoryComponent} from './pages/inventory/inventory.component';
 import {TransactionComponent} from './pages/transaction/transaction.component';
 import {IndexComponent} from '../shared/index/index.component';
+import {AdminGuardGuard} from '../../guards/admin-guard.guard';
 
 export const DASHBOARD_ROUTES: Routes = [
     {path: 'index', component: IndexComponent},
-    {path: 'item', component: ItemComponent},
-    {path: 'clients', component: ClientComponent},
-    {path: 'warehouse', component: WarehouseComponent},
-    {path: 'entry', component: EntryComponent},
-    {path: 'departure', component: DepartureComponent},
-    {path: 'user', component: UserComponent},
+    {path: 'user', component: UserComponent, canActivate: [AdminGuardGuard]},
+    {path: 'clients', component: ClientComponent, canActivate: [AdminGuardGuard]},
+    {path: 'item', component: ItemComponent, canActivate: [AdminGuardGuard]},
+    {path: 'warehouse', component: WarehouseComponent, canActivate: [AdminGuardGuard]},
     {path: 'inventory', component: InventoryComponent},
     {path: 'transaction', component: TransactionComponent},
+    {path: 'entry', component: EntryComponent},
+    {path: 'departure', component: DepartureComponent},
     {path: '**', pathMatch: 'full', redirectTo: 'budget'}
 ];

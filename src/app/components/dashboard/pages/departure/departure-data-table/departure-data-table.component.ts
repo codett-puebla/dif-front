@@ -10,6 +10,8 @@ import {MatDialog} from '@angular/material';
 import {UserInterfaceModel} from '../../../../../models/user.model';
 import {DeparturesService} from '../../../../../services/departures/departures.service';
 import MessagesUtill from '../../../../../util/messages.utill';
+import PermissionUtil from '../../../../../util/permission.util';
+import {ADMIN} from '../../../../../util/const.util';
 
 @Component({
     selector: 'app-departure-data-table',
@@ -108,5 +110,9 @@ export class DepartureDataTableComponent implements OnInit, AfterViewInit {
         dialogRef.afterClosed().subscribe(result => {
             console.log('The dialog was closed');
         });
+    }
+
+    getPermission(): boolean {
+        return PermissionUtil.getPermission(ADMIN);
     }
 }

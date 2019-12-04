@@ -62,7 +62,7 @@
         <ng-container matColumnDef="actions">
             <th mat-header-cell *matHeaderCellDef> Acciones</th>
             <td mat-cell *matCellDef="let element">
-                <button (click)="deleteDeparture(element.id)" type="button" mat-mini-fab class="bg-danger mr-1">
+                <button (click)="deleteDeparture(element.id)" type="button" mat-mini-fab class="bg-danger mr-1" *ngIf="getPermission()">
                     <mat-icon>close</mat-icon>
                 </button>
 

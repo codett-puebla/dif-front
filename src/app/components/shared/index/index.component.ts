@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {MODULES} from '../../../util/const.util';
+import PermissionUtil from '../../../util/permission.util';
 
 @Component({
   selector: 'app-index',
@@ -14,5 +15,7 @@ export class IndexComponent implements OnInit {
 
   ngOnInit() {
   }
-
+  getPermission(permission: number): boolean {
+    return PermissionUtil.getPermission(permission);
+  }
 }

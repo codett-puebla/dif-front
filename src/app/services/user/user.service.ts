@@ -12,16 +12,23 @@ export class UserService {
     private baseEndpoint = 'user/';
     private getUserEndpoint = 'all/';
     private newUserEndpoint = 'new';
-    private headers = new HttpHeaders();
+    private verifyUserEndpoint = 'verify';
+    private getUserForEmailEndpoint = 'getUserForEmail';
+    private headers;
     private url = SERVER + PORT + BASE_PATH + this.baseEndpoint;
     private data: any;
     private firstLoadService = true;
+    private token = localStorage.getItem('token');
 
     constructor(
         private _http: HttpClient
     ) {
-        this.headers.append('Content-Type', 'application/json');
-        this.headers.append('Access-Control-Allow-Origin', '*');
+        this.headers = {
+            'Content-Type': 'application/json',
+            'Access-Control-Allow-Origin': '*',
+            'Authorization': this.token,
+        };
+
     }
 
     getAllUsers() {
@@ -32,9 +39,11 @@ export class UserService {
     }
 
     newUser(data) {
+        console.log(this.headers);
         return this._http.post(
             this.url + this.newUserEndpoint,
             data,
+            {headers: this.headers}
         );
     }
 
@@ -42,7 +51,7 @@ export class UserService {
         return this._http.delete(this.url + id, {headers: this.headers});
     }
 
-    editUser(data: UserInterfaceModel) {
+    editUser(data: any) {
         return this._http.put(this.url, data,
             {headers: this.headers});
     }
@@ -63,5 +72,19 @@ export class UserService {
         } else {
             callback(this.data);
         }
+    }
+
+    verifyEmail(email: string) {
+        return this._http.get(
+            this.url + this.verifyUserEndpoint + '?email=' + email,
+            {headers: this.headers}
+        );
+    }
+
+    getUserForEmail(email: string, token: string) {
+        return this._http.get(
+            this.url + this.getUserForEmailEndpoint + '?email=' + email,
+            {headers: {'Authorization': token}}
+        );
     }
 }

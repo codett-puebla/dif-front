@@ -69,7 +69,7 @@
                                     <div class="col">
                                         <mat-form-field class="w-100" appearance="outline">
                                             <mat-label>Articulo</mat-label>
-                                            <mat-select formControlName="item">
+                                            <mat-select formControlName="item" (selectionChange)="changeItemInventory($event, i)">
                                                 <mat-option *ngFor="let item of itemsSelect" [value]="item">
                                                     {{item.code}}
                                                 </mat-option>
@@ -80,6 +80,12 @@
                                         <mat-form-field class="w-100" appearance="outline">
                                             <input type="number" matInput formControlName="quantity">
                                             <mat-label>Cantidad</mat-label>
+                                        </mat-form-field>
+                                    </div>
+                                    <div class="col">
+                                        <mat-form-field class="w-100" appearance="outline">
+                                            <mat-label >Cantidad en inventario</mat-label>
+                                            <input type="number" matInput formControlName="quantityInventory">
                                         </mat-form-field>
                                     </div>
                                     <div class="col">

@@ -1,15 +1,15 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
-import {FormArray, FormControl, FormGroup, NgForm, Validators} from '@angular/forms';
+import {AbstractControl, AsyncValidatorFn, FormArray, FormControl, FormGroup, NgForm, Validators} from '@angular/forms';
 import {DepartureDataTableComponent} from './departure-data-table/departure-data-table.component';
 import {Observable} from 'rxjs';
 import {WarehouseService} from '../../../../services/warehouse/warehouse.service';
 import {ItemService} from '../../../../services/item/item.service';
 import {InventoryService} from '../../../../services/inventory/inventory.service';
 import {DeparturesService} from '../../../../services/departures/departures.service';
-import {map, startWith} from 'rxjs/operators';
+import {debounceTime, map, startWith} from 'rxjs/operators';
 import MessagesUtill from '../../../../util/messages.utill';
 import * as _ from 'lodash';
-import Swal from "sweetalert2";
+import Swal from 'sweetalert2';
 import {formatDate} from '@angular/common';
 import {TransactionService} from '../../../../services/transaction/transaction.service';
 
@@ -44,15 +44,16 @@ export class DepartureComponent implements OnInit {
         this.form = new FormGroup(
             {
                 series: new FormControl('', [Validators.required, Validators.minLength(4)]),
-                folio: new FormControl('', [Validators.required, Validators.minLength(4)]),
-                date: new FormControl(formatDate(new Date(),'yyyy/MM/dd','en')),
+                folio: new FormControl('', [Validators.required, Validators.minLength(4)], this.validateFolio().bind(this)),
+                date: new FormControl(formatDate(new Date(), 'yyyy/MM/dd', 'en')),
                 warehouse: new FormControl('', [Validators.required]),
                 staff: new FormControl('', [Validators.required]),
                 departureDetails: new FormArray(
                     [
                         new FormGroup({
-                            item: new FormControl('',[Validators.required]),
-                            quantity: new FormControl('', [Validators.required, Validators.minLength(1)])
+                            item: new FormControl('', [Validators.required]),
+                            quantity: new FormControl('', [Validators.required, Validators.minLength(1)]),
+                            quantityInventory: new FormControl(''),
                         })
                     ]
                 )
@@ -62,29 +63,36 @@ export class DepartureComponent implements OnInit {
         this._warehouse.getData(this.callbackSetDataWareHouseSelect.bind(this));
         this._item.getData(this.callbackSetDataItems.bind(this));
         this.form.get('date').disable();
+        const arrayControl = this.form.get('departureDetails') as FormArray;
+        // @ts-ignore
+        arrayControl.controls[0].controls.quantityInventory.disable();
     }
 
     ngOnInit() {
     }
 
-  submit() {
-      Swal.showLoading();
-      let data = this.form.value;
-      if (!this.editForm) {
-          data.id = null;
-          data.idUser = 1;
-          data.status = 1;
-          data.departureStatus = 1;
-          console.log('NEW CLIENT ---> ', data);
-          this._departure.newDeparture(data).subscribe(
-              response => this.successRegister('Registro éxitoso'),
-              error => {
-                  Swal.close();
-                  MessagesUtill.errorMessage('El servicio no esta disponible');
-                  console.log(error);
-              }
-          );
-      }
+    submit() {
+        Swal.showLoading();
+        let data = this.form.value;
+        if (!this.editForm) {
+            data.id = null;
+            data.idUser = 1;
+            data.status = 1;
+            data.departureStatus = 1;
+            console.log('NEW CLIENT ---> ', data);
+            this._departure.newDeparture(data).subscribe(
+                response => this.successRegister('Registro éxitoso'),
+                error => {
+                    let errorMessage = 'El servicio no esta disponible';
+                    if (error.status === 409) {
+                        errorMessage = 'No hay recursos suficientes en el inventario de algún artículo';
+                    }
+                    Swal.close();
+                    MessagesUtill.errorMessage(errorMessage);
+                    console.log(error);
+                }
+            );
+        }
     }
 
     setStatusOpenState(status: boolean) {
@@ -115,8 +123,7 @@ export class DepartureComponent implements OnInit {
     onChangeItem() {
         const warehouse = this.form.get('warehouse');
         this.itemsSelect = this.items.filter(x => {
-            if (! _.isEmpty(x.inventories)) {
-                console.log(x.inventories[0].warehouse.id, warehouse.value.id);
+            if (!_.isEmpty(x.inventories)) {
                 if (x.inventories[0].warehouse.id === warehouse.value.id) {
                     return x;
                 }
@@ -168,10 +175,13 @@ export class DepartureComponent implements OnInit {
     addEntryDetail() {
         (this.form.controls.departureDetails as FormArray).push(
             new FormGroup({
-                item: new FormControl('',[Validators.required]),
-                quantity: new FormControl('', [Validators.required, Validators.minLength(1)])
+                item: new FormControl('', [Validators.required]),
+                quantity: new FormControl('', [Validators.required, Validators.minLength(1)]),
+                quantityInventory: new FormControl(''),
             })
         );
+        // @ts-ignore
+        this.form.controls.departureDetails.controls[this.form.controls.departureDetails.controls.length - 1].controls.quantityInventory.disable();
         // @ts-ignore
         this.manageArrayCostControl(this.form.controls.departureDetails.controls.length - 1);
     }
@@ -183,6 +193,30 @@ export class DepartureComponent implements OnInit {
         return abstractControl.hasError('required') ? '* Requerido' :
             abstractControl.hasError('minlength') ? 'Minimo de Caracteres: 3' :
                 abstractControl.hasError('maxlength') ? 'Máximo de Caracteres: 30' :
-                    '';
+                    abstractControl.hasError('isFolioExists') ? 'Este folio ya esta registrado' :
+                        '';
     }
+
+    validateFolio(): AsyncValidatorFn {
+        return (control: AbstractControl): Observable<{ [key: string]: any } | null> => {
+            return this._departure.verifyFolio((control.value as string).trim())
+                .pipe(
+                    debounceTime(600),
+                    map((exist: string) => {
+                        console.log('PROIMESA  --_> ', exist);
+                        if (!_.isEmpty(exist)) {
+                            return {isFolioExists: true};
+                        }
+                        return null;
+                    })
+                );
+        };
+    }
+
+    changeItemInventory(item, position) {
+        console.log('ITEM CAMBIO --> ', item.value, position);
+        // @ts-ignore
+        this.form.controls.departureDetails.controls[position].controls.quantityInventory.setValue(item.value.inventories[0].quantity);
+    }
+
 }

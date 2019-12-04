@@ -28,11 +28,10 @@
                                             </mat-form-field>
                                         </div>
                                     </div>
-
                                     <div class="col pr-0 pl-0">
                                         <div class="row justify-content-center">
                                             <mat-form-field class="w-75" appearance="outline">
-                                                <input type="text" matInput formControlName="password">
+                                                <input type="password" matInput formControlName="password">
                                                 <mat-label>Contraseña</mat-label>
                                                 <mat-error> {{getAttrMessage('password')}} </mat-error>
                                             </mat-form-field>
@@ -44,7 +43,7 @@
                                     <div class="col pr-0 pl-0">
                                         <div class="row justify-content-center">
                                             <mat-form-field class="w-75" appearance="outline">
-                                                <input type="text" matInput formControlName="confirmPassword">
+                                                <input type="password" matInput formControlName="confirmPassword">
                                                 <mat-label>Confirmar Contraseña</mat-label>
                                                 <mat-error> {{getAttrMessage('confirmPassword')}} </mat-error>
                                             </mat-form-field>
@@ -55,12 +54,12 @@
                                         <div class="row justify-content-center">
                                             <mat-form-field class="w-75" appearance="outline">
                                                 <mat-label>Tipo de usuario</mat-label>
-                                                <mat-select formControlName="typeUser">
-                                                    <mat-option *ngFor="let type of typeUser" [value]="type.value">
+                                                <mat-select formControlName="status">
+                                                    <mat-option *ngFor="let type of typeUser" [value]="type">
                                                         {{type.viewValue}}
                                                     </mat-option>
                                                 </mat-select>
-                                                <mat-error>{{getAttrMessage('typeUser')}}</mat-error>
+                                                <mat-error>{{getAttrMessage('status')}}</mat-error>
                                             </mat-form-field>
                                         </div>
                                     </div>
