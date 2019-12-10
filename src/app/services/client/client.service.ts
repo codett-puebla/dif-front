@@ -39,6 +39,7 @@ export class ClientService {
         return this._http.post(
             this.url + this.newClientEndpoint,
             data,
+            {headers: this.headers}
         );
     }
 

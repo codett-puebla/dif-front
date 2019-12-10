@@ -40,6 +40,7 @@ export class EntryService {
         return this._http.post(
             this.url + this.newEntryEndpoint,
             data,
+            {headers: this.headers}
         );
     }
 

@@ -40,6 +40,7 @@ export class DeparturesService {
         return this._http.post(
             this.url + this.newDepartureEndpoint,
             data,
+            {headers: this.headers}
         );
     }
 

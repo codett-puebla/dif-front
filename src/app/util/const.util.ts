@@ -1,13 +1,13 @@
 
-//VARIABLES DE CONEXIÓN LOCAL
-export  const SERVER = 'http://localhost';
-export  const PORT = ':8080';
-export  const BASE_PATH = '/';
-
-//VARIABLES DE CONEXIÓN SERVIDOR
-// export  const SERVER = 'http://165.22.2.168';
+// VARIABLES DE CONEXIÓN LOCAL
+// export  const SERVER = 'http://localhost';
 // export  const PORT = ':8080';
-// export  const BASE_PATH = '/DIFAPI/';
+// export  const BASE_PATH = '/';
+
+//VARIABLES DE CONEXIÓN SERVIDOR/
+export  const SERVER = 'http://165.22.2.168';
+export  const PORT = ':8080';
+export  const BASE_PATH = '/DIFAPI/';
 
 export const ADMIN = 2;
 

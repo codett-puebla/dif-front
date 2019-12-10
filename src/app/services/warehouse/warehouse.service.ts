@@ -38,6 +38,7 @@ export class WarehouseService {
         return this._http.post(
             this.url + this.newWarehouseEndpoint,
             data,
+            {headers: this.headers}
         );
     }
 
